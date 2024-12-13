@@ -1,4 +1,3 @@
-
 import Image from "next/image";
 import React, { ReactNode } from "react";
 import SideMenu from "../app/components/sidemenu";
@@ -11,7 +10,7 @@ import {
   SignedIn,
   SignedOut,
   UserButton,
-} from "@clerk/nextjs";
+} from '@clerk/nextjs';
 import Home from "./page";
 
 export default function RootLayout({ children }) {
@@ -19,7 +18,6 @@ export default function RootLayout({ children }) {
     <ClerkProvider>
       <html lang="en">
         <body>
-
           <header className="bg-white shadow-md fixed top-0 left-0 right-0 z-10">
             <div className="flex justify-between items-center px-4 py-3 sm:px-6">
               <div className="flex items-center space-x-4">
@@ -32,26 +30,22 @@ export default function RootLayout({ children }) {
                 />
                 <h1 className="text-lg font-bold text-gray-800">
                   Parking Voices
-                </h1>
-              </div>
-              <div>
-                <NavBar />
-              </div>
-              <div>
-                <SignedIn>
-                  <UserButton className="w-10 h-10 bg-gray-300 rounded-full flex items-center justify-center text-white" />
-                  <SideMenu className="w-10 h-10 bg-gray-300 rounded-full flex items-center justify-center text-white"></SideMenu>
-                </SignedIn>
-                <SignedOut>
-                  <SignInButton />
-                </SignedOut>
+                </h1>              
+                <div>
+                  <NavBar />
+                </div>
+                <div>
+                  <SignedIn>
+                    <UserButton className="w-10 h-10 bg-gray-300 rounded-full flex items-center justify-center text-white" />
+                    <SideMenu className="w-10 h-10 bg-gray-300 rounded-full flex items-center justify-center text-white"></SideMenu>
+                  </SignedIn>
+                  <SignedOut>
+                    <SignInButton />
+                  </SignedOut>
+                </div>
               </div>
             </div>
           </header>
-
-         
-      
-
           <main className="bg-purple-100 py-6 px-4 rounded-lg shadow-md max-w-lg mx-auto">
             {children}
           </main>
@@ -70,12 +64,10 @@ export default function RootLayout({ children }) {
                 width={16}
                 height={16}
               />
-              Go to nextjs.org →
             </a>
           </footer>
-
         </body>
       </html>
     </ClerkProvider>
   );
-}
+}  
