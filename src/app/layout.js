@@ -10,7 +10,7 @@ import {
   SignedIn,
   SignedOut,
   UserButton,
-} from "@clerk/nextjs";
+} from '@clerk/nextjs';
 import Home from "./page";
 
 export default function RootLayout({ children }) {
@@ -29,18 +29,20 @@ export default function RootLayout({ children }) {
                   height={10}
                 />
                 <h1 className="text-lg font-bold text-gray-800">
-                  Parking Voices
-                </h1>
-              </div>
-              <div><NavBar /></div>
-              <div>
-                <SignedIn>
-                  <UserButton className="w-10 h-10 bg-gray-300 rounded-full flex items-center justify-center text-white" />
-                  <SideMenu className="w-10 h-10 bg-gray-300 rounded-full flex items-center justify-center text-white"></SideMenu>
-                </SignedIn>
-                <SignedOut>
-                  <SignInButton />
-                </SignedOut>
+                  Parking Voices     
+                </h1>              
+                <div>
+                  <NavBar />
+                </div>
+                <div>
+                  <SignedIn>
+                    <UserButton className="w-10 h-10 bg-gray-300 rounded-full flex items-center justify-center text-white" />
+                    <SideMenu className="w-10 h-10 bg-gray-300 rounded-full flex items-center justify-center text-white"></SideMenu>
+                  </SignedIn>
+                  <SignedOut>
+                    <SignInButton />
+                  </SignedOut>
+                </div>
               </div>
             </div>
           </header>
@@ -68,4 +70,4 @@ export default function RootLayout({ children }) {
       </html>
     </ClerkProvider>
   );
-}
+}  
