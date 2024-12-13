@@ -1,4 +1,3 @@
-
 import Image from "next/image";
 import React, { ReactNode } from "react";
 import SideMenu from "../app/components/sidemenu";
@@ -19,7 +18,6 @@ export default function RootLayout({ children }) {
     <ClerkProvider>
       <html lang="en">
         <body>
-
           <header className="bg-white shadow-md fixed top-0 left-0 right-0 z-10">
             <div className="flex justify-between items-center px-4 py-3 sm:px-6">
               <div className="flex items-center space-x-4">
@@ -49,9 +47,6 @@ export default function RootLayout({ children }) {
             </div>
           </header>
 
-         
-      
-
           <main className="bg-purple-100 py-6 px-4 rounded-lg shadow-md max-w-lg mx-auto">
             {children}
           </main>
@@ -73,7 +68,6 @@ export default function RootLayout({ children }) {
               Go to nextjs.org →
             </a>
           </footer>
-
         </body>
       </html>
     </ClerkProvider>
