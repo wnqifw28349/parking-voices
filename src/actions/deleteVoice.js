@@ -17,3 +17,5 @@ export async function deleteVoice(voiceId) {
     console.error("Failed to delete voice:", error);
   }
 }
+
+//server action to delete a voice 
