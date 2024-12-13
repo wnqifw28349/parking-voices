@@ -29,14 +29,8 @@ export async function fetchCategoriesAndLocations() {
     );
 
     return {
-      categories: categoriesResult.rows.map((row) => ({
-        id: row.id,
-        name: row.category_name,
-      })),
-      locations: locationsResult.rows.map((row) => ({
-        id: row.id,
-        name: row.location_name,
-      })),
+      categoriesResult,
+      locationsResult,
     };
   } catch (err) {
     console.error("Error fetching categories or locations:", err);

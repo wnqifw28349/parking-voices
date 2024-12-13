@@ -3,18 +3,16 @@ import SideMenu from "./sidemenu";
 
 import { SignInButton, SignedIn, SignedOut, UserButton } from "@clerk/nextjs";
 
-import { auth, currentUser } from "@clerk/nextjs/server";
+import { currentUser } from "@clerk/nextjs/server";
 
-export default function NavBar(toggleMenu) {
-  async function fetchUser(params) {
-    // if you just need the users id
-    const user = await auth();
-    // if you need their image, name, email whatever
-    const currentUserObj = await currentUser();
-    console.log(user);
-    console.log(currentUserObj);
-  }
-  fetchUser();
+export default function NavBar() {
+  // async function fetchUser(params) {
+  //   // if you need their image, name, email whatever
+  //   const currentUserObj = await currentUser();
+
+  //   console.log(currentUserObj);
+  // }
+  // fetchUser();
 
   return (
     <div>
@@ -39,10 +37,10 @@ export default function NavBar(toggleMenu) {
             Voices
           </Link>
           <div>
-            {currentUserObj && (
+            {currentUser() && (
               <div className="flex items-center space-x-4">
-                {currentUserObj.firstName
-                  ? `Hello ${currentUserObj.firstName}`
+                {currentUser.firstName
+                  ? `Hello ${currentUser.firstName}`
                   : "Hello"}
               </div>
             )}

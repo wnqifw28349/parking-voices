@@ -16,8 +16,8 @@ export default function PostVoicesClient() {
         const res = await fetch("/api/getCategoriesAndLocations");
         if (!res.ok) throw new Error("Failed to fetch data.");
         const data = await res.json();
-        setCategories(data.categories || []);
-        setLocations(data.locations || []);
+        setCategories(data.categoriesResult || []);
+        setLocations(data.locationsResult || []);
       } catch (err) {
         console.error("Error fetching data:", err);
         setError("Failed to load categories or locations.");
@@ -25,7 +25,9 @@ export default function PostVoicesClient() {
     }
     fetchData();
   }, []);
-
+  useEffect(() => {
+    console.log(categories);
+  }, [categories]);
   // Handle form submission
   async function handleSubmit(event) {
     event.preventDefault();
@@ -89,11 +91,13 @@ export default function PostVoicesClient() {
             <option value="" disabled>
               Select a category
             </option>
-            {categories.map((category) => (
-              <option key={category.id} value={category.id}>
-                {category.name}
-              </option>
-            ))}
+            {categories.map((category) => {
+              return (
+                <option key={category.id} value={category.id}>
+                  {category.name}
+                </option>
+              );
+            })}
           </select>
         </div>
 

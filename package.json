@@ -10,7 +10,7 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@clerk/nextjs": "^6.9.0",
+    "@clerk/nextjs": "^6.9.1",
     "@radix-ui/primitive": "^1.1.0",
     "@radix-ui/react-alert-dialog": "^1.1.2",
     "clsx": "^2.1.1",

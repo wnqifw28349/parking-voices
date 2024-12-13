@@ -1,16 +1,13 @@
-import Link from 'next/link';
-import { SignInButton, SignedIn, SignedOut, UserButton } from '@clerk/nextjs';
+import Link from "next/link";
+import { SignInButton, SignedIn, SignedOut, UserButton } from "@clerk/nextjs";
 
-import { auth, currentUser } from '@clerk/nextjs/server';
+import { currentUser } from "@clerk/nextjs/server";
+// if you just need the users id
+// const user = await auth();
 
+// if you need their image, name, email whatever
 export default async function NavBar() {
-  // if you just need the users id
-  const user = await auth();
-
-  // if you need their image, name, email whatever
   const currentUserObj = await currentUser();
-
-  console.log(user);
   console.log(currentUserObj);
   return (
     <div className="flex flex-row m-8">
@@ -38,7 +35,7 @@ export default async function NavBar() {
           <div className="flex items-center space-x-4">
             {currentUserObj.firstName
               ? `Hello ${currentUserObj.firstName}`
-              : 'Hello'}
+              : "Hello"}
           </div>
         )}
         <div className="flex items-center space-x-4">

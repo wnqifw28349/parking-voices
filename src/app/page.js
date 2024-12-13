@@ -1,15 +1,10 @@
-import middleware from "../middleware";
 import Image from "next/image";
-import UserPosts from "./user-posts/page";
+import UserPosts from "../app/components/user-posts";
 import PostVoicesClient from "./components/PostVoicesClient";
 import Link from "next/link";
-import {
-  ClerkProvider,
-  SignedIn,
-  SignedOut,
-} from "@clerk/nextjs";
+import { ClerkProvider, SignedIn, SignedOut } from "@clerk/nextjs";
 // import { auth } from '@clerk/nextjs/server';
-import VoiceOfDay from './components/VoiceOfDay';
+import VoiceOfDay from "./components/VoiceOfDay";
 
 export default function Home() {
   return (
@@ -19,7 +14,7 @@ export default function Home() {
           {/* Uncomment Herocard if needed */}
           {/* <Herocard className="flex gap-4 items-center flex-col sm:flex-row" /> */}
           <div className="overflow-y-auto scrollbar-thin scrollbar-thumb-gray-600 scrollbar-track-gray-200">
-            <VoiceOfDay />
+            {/* <VoiceOfDay /> */}
             <UserPosts />
           </div>
           <SignedIn>
