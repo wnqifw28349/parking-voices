@@ -10,7 +10,7 @@ import {
 } from "react-icons/tb";
 import { FaSpinner } from "react-icons/fa";
 
-export function AmpButtons({ amp, damp, amps, existingAmps }) {
+export default function AmpButtons({ amp, damp, amps, existingAmps }) {
   const { pending, data, method, action } = useFormStatus();
   return (
     <>
