@@ -29,7 +29,7 @@ export default function RootLayout({ children }) {
                   height={10}
                 />
                 <h1 className="text-lg font-bold text-gray-800">
-                  Parking Voices
+                  Parking Voices     
                 </h1>              
                 <div>
                   <NavBar />
