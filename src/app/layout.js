@@ -1,8 +1,9 @@
-// import Image from 'next/image';
-import React from 'react';
-import './globals.css';
-// import Link from 'next/link';
-import NavBar from '@/app/components/navbar';
+import Image from "next/image";
+import React, { ReactNode } from "react";
+import SideMenu from "../app/components/sidemenu";
+import "./globals.css";
+import Link from "next/link";
+import NavBar from "../app/components/navbar";
 import {
   ClerkProvider,
   SignInButton,
@@ -10,8 +11,9 @@ import {
   SignedOut,
   UserButton,
 } from '@clerk/nextjs';
+import Home from "./page";
 
-function RootLayout({ children }) {
+export default function RootLayout({ children }) {
   return (
     <ClerkProvider>
       <html lang="en">
@@ -19,28 +21,31 @@ function RootLayout({ children }) {
           <header className="bg-white shadow-md fixed top-0 left-0 right-0 z-10">
             <div className="flex justify-between items-center px-4 py-3 sm:px-6">
               <div className="flex items-center space-x-4">
-                {/* <Image
+                <Image
                   src="/logo.svg"
                   alt="Logo"
                   className="w-10 h-10"
                   width={10}
                   height={10}
-                /> */}
+                />
                 <h1 className="text-lg font-bold text-gray-800">
                   Parking Voices
-                </h1>
+                </h1>              
+                <div>
+                  <NavBar />
+                </div>
+                <div>
+                  <SignedIn>
+                    <UserButton className="w-10 h-10 bg-gray-300 rounded-full flex items-center justify-center text-white" />
+                    <SideMenu className="w-10 h-10 bg-gray-300 rounded-full flex items-center justify-center text-white"></SideMenu>
+                  </SignedIn>
+                  <SignedOut>
+                    <SignInButton />
+                  </SignedOut>
+                </div>
               </div>
-              <NavBar />
             </div>
           </header>
-          <SignedOut>
-            <SignInButton />
-          </SignedOut>
-
-          <SignedIn>
-            <UserButton />
-          </SignedIn>
-
           <main className="bg-purple-100 py-6 px-4 rounded-lg shadow-md max-w-lg mx-auto">
             {children}
           </main>
@@ -52,20 +57,17 @@ function RootLayout({ children }) {
               target="_blank"
               rel="noopener noreferrer"
             >
-              {/* <Image
+              <Image
                 aria-hidden
                 src="/globe.svg"
                 alt="Globe icon"
                 width={16}
                 height={16}
-              /> */}
-              Go to nextjs.org →
+              />
             </a>
           </footer>
         </body>
       </html>
     </ClerkProvider>
   );
-}
-
-export default RootLayout;
+}  
