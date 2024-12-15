@@ -1,8 +1,8 @@
 import pg from "pg";
 import { db } from "../../utils/db";
 import { redirect } from "next/navigation";
-import DeleteButton from "../../components/deletebutton";
-import AmpButtons from "../../components/AmpButtons";
+import DeleteButton from "../components/deletebutton";
+import AmpButtons from "../components/AmpButtons";
 import { deleteVoice } from "../../actions/deleteVoice";
 
 export default async function UserPosts() {

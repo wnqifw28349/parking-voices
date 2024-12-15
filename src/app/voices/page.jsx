@@ -1,5 +1,7 @@
 import Link from "next/link";
 import { db } from "@/utils/db";
+import { SignedIn, SignedOut } from "@clerk/nextjs";
+import PostForm from "@/app/components/PostForm";
 
 export default async function Voices() {
   // Fetch voices with comments and nested replies
@@ -90,6 +92,9 @@ export default async function Voices() {
           );
         })}
       </ul>
+      <SignedIn>
+        <PostForm />{" "}
+      </SignedIn>
     </div>
   );
 }

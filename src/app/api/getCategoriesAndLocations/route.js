@@ -1,4 +1,4 @@
-import { fetchCategoriesAndLocations } from "../../../components/PostVoicesServer";
+import { fetchCategoriesAndLocations } from "../../components/PostVoicesServer";
 
 export async function GET(req) {
   try {
