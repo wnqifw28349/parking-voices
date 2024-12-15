@@ -56,17 +56,6 @@ export default async function NavBar() {
             </svg>
           </button>
         </div>
-        <br />
-        {/* if the user is signed in */}
-        <SignedIn className="m-8">
-          {/* <p>Hello {currentUserObj.firstName}</p> */}
-          <UserButton className="w-10 h-10 bg-gray-300 rounded-full flex items-center justify-center text-white" />
-        </SignedIn>
-
-        {/* if they're signed out show them this */}
-        <SignedOut className="m-8">
-          <SignInButton />
-        </SignedOut>
       </nav>
     </div>
   );
