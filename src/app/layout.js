@@ -1,16 +1,16 @@
 import Image from "next/image";
 import React, { ReactNode } from "react";
-import SideMenu from "../app/components/sidemenu";
+import SideMenu from "./components/sidemenu";
 import "./globals.css";
 import Link from "next/link";
-import NavBar from "../app/components/navbar";
+import NavBar from "./components/NavBar";
 import {
   ClerkProvider,
   SignInButton,
   SignedIn,
   SignedOut,
   UserButton,
-} from '@clerk/nextjs';
+} from "@clerk/nextjs";
 import Home from "./page";
 
 export default function RootLayout({ children }) {
@@ -29,8 +29,8 @@ export default function RootLayout({ children }) {
                   height={10}
                 />
                 <h1 className="text-lg font-bold text-gray-800">
-                  Parking Voices     
-                </h1>              
+                  Parking Voices
+                </h1>
                 <div>
                   <NavBar />
                 </div>
@@ -70,4 +70,4 @@ export default function RootLayout({ children }) {
       </html>
     </ClerkProvider>
   );
-}  
+}
