@@ -90,7 +90,7 @@ export default function PostVoicesClient() {
               Select a category
             </option>
             {categories.map((category) => (
-              <option key={category.id} value={category.id}>
+              <option key={category.category_id} value={category_id}>
                 {category.name}
               </option>
             ))}
