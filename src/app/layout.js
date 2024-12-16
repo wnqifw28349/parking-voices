@@ -23,7 +23,7 @@ export default function RootLayout({ children }) {
             <Header />
           </header>
     {/*Main Content*/}
-          <main className="bg-purple-100 py-6 px-4 rounded-lg shadow-md max-w-lg mx-auto mt-16 overflow-y-auto">
+          <main className="bg-purple-100 py-6 px-4 rounded-lg shadow-md max-w-lg mx-auto overflow-y-auto">
             {children}
           </main>
 
