@@ -13,22 +13,22 @@ export default async function NavBar() {
   // console.log(user);
   // console.log("User:", user);
   return (
-    <div className="flex flex-row m-8">
+    <div className="flex flex-row m-8 items-right">
       <nav className="hidden sm:flex space-x-6">
-        <Link
+        {/* <Link
           href="/"
           className="text-gray-600 hover:text-gray-900 font-medium active:text-blue-600"
         >
           Home
-        </Link>
-        <Link
+        </Link> */}
+        {/* <Link
           href="/category/"
           className="text-gray-600 hover:text-gray-900 font-medium active:text-blue-600"
         >
           Categories
-        </Link>
+        </Link> */}
         <Link
-          href="/user-posts"
+          href="/voices"
           className="text-gray-600 hover:text-gray-900 font-medium active:text-blue-600"
         >
           Voices
@@ -37,36 +37,21 @@ export default async function NavBar() {
         <SignedIn>
           <div className="font-small space-x-4">Hello {user?.firstName}</div>
         </SignedIn>
-        <div className="flex items-center space-x-4">
+        {/* <div className="flex items-center space-x-4">
           {/* Menu Icon */}
-          <button className="sm:hidden text-gray-600 focus:outline-none">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className="h-6 w-6"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="2"
-                d="M4 6h16M4 12h16m-7 6h7"
-              />
-            </svg>
-          </button>
-        </div>
-        <br />
+
+        {/* </div> */}
+        {/* <br /> */}
         {/* if the user is signed in */}
-        <SignedIn className="m-8">
-          {/* <p>Hello {currentUserObj.firstName}</p> */}
-          <UserButton className="w-10 h-10 bg-gray-300 rounded-full flex items-center justify-center text-white" />
-        </SignedIn>
+        {/* <SignedIn className="m-8"> */}
+        {/* <p>Hello {currentUserObj.firstName}</p> */}
+        {/* <UserButton className="w-10 h-10 bg-gray-300 rounded-full flex items-center justify-center text-white" />
+        </SignedIn> */}
 
         {/* if they're signed out show them this */}
-        <SignedOut className="m-8">
+        {/* <SignedOut className="m-8">
           <SignInButton />
-        </SignedOut>
+        </SignedOut> */}
       </nav>
     </div>
   );

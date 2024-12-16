@@ -1,7 +1,9 @@
+"use client";
 import React from "react";
 import Image from "next/image";
 import InteractionIcons from "@/app/components/InteractionIcon";
 import { db } from "@/utils/db";
+import { useState } from "react";
 import { clsx } from "clsx";
 import {
   Card,
@@ -14,21 +16,30 @@ import {
 import { GiUltrasound } from "react-icons/gi";
 import { PiUserSound } from "react-icons/pi";
 
-export default async function VoiceOfDay() {
-  const response = await db.query(`
-    SELECT  * FROM voices
-    WHERE voices.created_at >= NOW() - INTERVAL '1 month'
-    ORDER BY voices.amplifiers_count DESC
-    LIMIT 1;
-`);
-  const data = response.rows[0];
-  // const reply = await db.query(`SELECT user_id, username, FROM users`);
-  // const userlink = reply.rows;
+export default function VoiceOfDay({ data }) {
+  const [isSpeaking, setIsSpeaking] = useState(false);
 
-  console.log("The voice of the day day data", data);
+  // Function to handle text-to-speech
+  const handlePlayText = () => {
+    const synth = window.speechSynthesis;
+    const utterance = new SpeechSynthesisUtterance(data.content);
+
+    if (synth.speaking) {
+      synth.cancel();
+      setIsSpeaking(false);
+      return;
+    }
+
+    synth.speak(utterance);
+    setIsSpeaking(true);
+
+    utterance.onend = () => setIsSpeaking(false);
+  };
+
+  // console.log("The voice of the day day data", data);
   const userotd = data.username;
-  const contotd = data.content;
-  console.log(data.username, data.content);
+  // const contotd = data.content;
+  // console.log(data.username, data.content);
 
   return (
     <div className="max-w-4xl mx-auto mt-6 pb-2">
@@ -61,7 +72,7 @@ export default async function VoiceOfDay() {
               </button>
               <GiUltrasound
                 size={24}
-                className={clsx("hover:text-orange-600")}
+                className={clsx({ "text-orange-600": isSpeaking })}
               />
               {/* <button className="flex items-center justify-center text-white w-8 h-8 rounded-full shadow-md">
                 <img
