@@ -12,44 +12,18 @@ import {
   UserButton,
 } from "@clerk/nextjs";
 import Home from "./page";
+import Header from "./components/Header";
 
 export default function RootLayout({ children }) {
   return (
     <ClerkProvider>
       <html lang="en">
-        <body className="grid grid-rows-[auto_1fr_auto] h-screen">
-          {/* Header */}
-          <header className="bg-white shadow-md">
-            <div className="flex justify-between items-center px-4 py-3 sm:px-6">
-              <div className="flex items-center space-x-4">
-                <Image
-                  src="/logo.svg"
-                  alt="Logo"
-                  className="w-10 h-10"
-                  width={10}
-                  height={10}
-                />
-                <h1 className="text-lg font-bold text-gray-800">
-                  Parking Voices
-                </h1>
-              </div>
-              <div>
-                <NavBar />
-              </div>
-              <div>
-                <SignedIn>
-                  <UserButton className="w-10 h-10 bg-gray-300 rounded-full flex items-center justify-center text-white" />
-                  {/* <SideMenu className="w-10 h-10 bg-gray-300 rounded-full flex items-center justify-center text-white"></SideMenu> */}
-                </SignedIn>
-                <SignedOut>
-                  <SignInButton />
-                </SignedOut>
-              </div>
-            </div>
+        <body className="grid grid-rows-[auto_1fr_auto] h-screen>
+          <header className="bg-white shadow-md w-full max-height-20 shadow z-50">
+            <Header />
           </header>
-
-          {/* Main Content */}
-          <main className="overflow-y-auto bg-purple-100 py-6 px-4 shadow-md max-w-lg mx-auto">
+    {/*Main Content*/}
+          <main className="bg-purple-100 py-6 px-4 rounded-lg shadow-md max-w-lg mx-auto mt-16 overflow-y-auto">
             {children}
           </main>
 
@@ -64,12 +38,12 @@ export default function RootLayout({ children }) {
             >
               <Image
                 aria-hidden
-                src="/globe.svg"
-                alt="Globe icon"
-                width={10}
-                height={10}
+                src="/ampicon.svg"
+                alt="Amp icon"
+                width={16}
+                height={16}
               />
-              Go to nextjs.org →
+              Get AMP
             </a>
           </footer>
         </body>
