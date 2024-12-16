@@ -18,17 +18,20 @@ export default function RootLayout({ children }) {
   return (
     <ClerkProvider>
       <html lang="en">
-        <body>
-          <header className="bg-white shadow-md fixed top-0 left-0 right-0 w-full max-height-20 shadow z-50">
+        <body className="grid grid-rows-[auto_1fr_auto] h-screen>
+          <header className="bg-white shadow-md w-full max-height-20 shadow z-50">
             <Header />
           </header>
-          <main className="bg-purple-100 py-6 px-4 rounded-lg shadow-md max-w-lg mx-auto mt-16">
+    {/*Main Content*/}
+          <main className="bg-purple-100 py-6 px-4 rounded-lg shadow-md max-w-lg mx-auto mt-16 overflow-y-auto">
             {children}
           </main>
-          <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center">
+
+          {/* Footer */}
+          <footer className="bg-gray-200 py-4 flex items-center justify-center">
             <p>Driving & Parking Blog</p>
             <a
-              className="flex items-center gap-2 hover:underline hover:underline-offset-4"
+              className="flex items-center gap-2 hover:underline hover:underline-offset-4 h-10"
               href="https://www.myparkingfines.co.uk"
               target="_blank"
               rel="noopener noreferrer"
@@ -40,6 +43,7 @@ export default function RootLayout({ children }) {
                 width={16}
                 height={16}
               />
+              Get AMP
             </a>
           </footer>
         </body>

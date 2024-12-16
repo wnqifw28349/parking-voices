@@ -29,6 +29,6 @@ export default function Home() {
           </SignedOut>
         </main>
       </div>
-    </ClerkProvider>
-  );
-}
+</ClerkProvider>
+    );
+  }
