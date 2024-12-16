@@ -28,7 +28,7 @@ export default async function NavBar() {
           Categories
         </Link>
         <Link
-          href="/user-posts"
+          href="/voices"
           className="text-gray-600 hover:text-gray-900 font-medium active:text-blue-600"
         >
           Voices

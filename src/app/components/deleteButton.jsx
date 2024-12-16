@@ -1,5 +1,7 @@
-import React from 'react';
-import { db } from '@/utils/db';
+"use client";
+
+import React from "react";
+import { db } from "@/utils/db";
 
 export default function DeleteButton({ voiceId, refreshData }) {
   const handleDelete = async () => {
@@ -11,14 +13,14 @@ export default function DeleteButton({ voiceId, refreshData }) {
       // Refresh the data to reflect changes
       if (refreshData) refreshData();
     } catch (error) {
-      console.error('Error deleting post:', error);
-      alert('Failed to delete the post. Please try again.');
+      console.error("Error deleting post:", error);
+      alert("Failed to delete the post. Please try again.");
     }
   };
 
   return (
     <button
-      action={handleDelete()}
+      onClick={handleDelete}
       className="bg-red-500 text-white font-bold py-1 px-3 rounded hover:bg-red-600"
     >
       Delete

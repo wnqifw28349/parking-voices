@@ -2,6 +2,7 @@ import Link from "next/link";
 import { db } from "@/utils/db";
 import { SignedIn, SignedOut } from "@clerk/nextjs";
 import PostForm from "@/app/components/PostForm";
+import AmpButtons from "../components/AmpButtons";
 
 export default async function Voices() {
   // Fetch voices with comments and nested replies
@@ -72,6 +73,9 @@ export default async function Voices() {
                 <p className="text-sm text-gray-400 mb-4">
                   Location: {voice.location}
                 </p>
+                <div>
+                  <AmpButtons voiceId={voice.voice_id} />
+                </div>
               </div>
 
               {/* Comments Section */}
