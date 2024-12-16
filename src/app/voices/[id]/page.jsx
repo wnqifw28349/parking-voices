@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { db } from "@/utils/db";
+import CommentForm from "@/app/components/CommentForm";
 
 export default async function singleVoicePage({ params }) {
   const { id } = await params;
@@ -61,7 +62,7 @@ export default async function singleVoicePage({ params }) {
     return <p>Voice not found.</p>;
   }
 
-  function Comment({ comment }) {
+  function Comment({ comment, voiceId }) {
     return (
       <li key={comment.comment_id} className="text-sm text-gray-600">
         <p>
@@ -73,10 +74,20 @@ export default async function singleVoicePage({ params }) {
         {comment.replies && comment.replies.length > 0 && (
           <ul className="pl-4 border-l-2 border-gray-200 space-y-2">
             {comment.replies.map((reply) => (
-              <Comment key={reply.comment_id} comment={reply} />
+              <Comment
+                key={reply.comment_id}
+                comment={reply}
+                voiceId={voiceId}
+              />
             ))}
           </ul>
         )}
+
+        {/* Reply Form */}
+        <details>
+          <summary className="text-blue-500 cursor-pointer mt-2">Reply</summary>
+          <CommentForm voiceId={voiceId} parentCommentId={comment.comment_id} />
+        </details>
       </li>
     );
   }
@@ -95,10 +106,20 @@ export default async function singleVoicePage({ params }) {
         </summary>
         <ul className="mt-2 pl-4 border-l-2 border-gray-200 space-y-2">
           {comments.map((comment) => (
-            <Comment key={comment.comment_id} comment={comment} />
+            <Comment
+              key={comment.comment_id}
+              comment={comment}
+              voiceId={voice.voice_id}
+            />
           ))}
         </ul>
       </details>
+
+      {/* Top-Level Comment Form */}
+      <div className="mt-6">
+        <h4 className="text-lg font-bold text-gray-800 mb-2">Add a Comment</h4>
+        <CommentForm voiceId={voice.voice_id} />
+      </div>
     </div>
   );
 }
