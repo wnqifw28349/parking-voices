@@ -18,7 +18,7 @@ export default function RootLayout({ children }) {
     <ClerkProvider>
       <html lang="en">
         <body>
-          <header className="bg-white shadow-md fixed top-0 left-0 right-0 z-10">
+          <header className="bg-white shadow-md fixed top-0 left-0 right-0 w-full max-height-20 shadow z-50">
             <div className="flex justify-between items-center px-4 py-3 sm:px-6">
               <div className="flex items-center space-x-4">
                 <Image
@@ -46,7 +46,7 @@ export default function RootLayout({ children }) {
               </div>
             </div>
           </header>
-          <main className="bg-purple-100 py-6 px-4 rounded-lg shadow-md max-w-lg mx-auto">
+          <main className="bg-purple-100 py-6 px-4 rounded-lg shadow-md max-w-lg mx-auto mt-16">
             {children}
           </main>
           <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center">
@@ -59,8 +59,8 @@ export default function RootLayout({ children }) {
             >
               <Image
                 aria-hidden
-                src="/globe.svg"
-                alt="Globe icon"
+                src="/ampicon.svg"
+                alt="Amp icon"
                 width={16}
                 height={16}
               />

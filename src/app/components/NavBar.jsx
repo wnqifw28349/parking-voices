@@ -5,10 +5,10 @@ import { auth, currentUser } from "@clerk/nextjs/server";
 
 export default async function NavBar() {
   // if you just need the users id
-  // const user = await auth();
+  const userprime = await auth();
 
   // if you need their image, name, email whatever
-  const user = await currentUser();
+  const user = await currentUser(userprime);
 
   // console.log(user);
   // console.log("User:", user);
@@ -35,7 +35,7 @@ export default async function NavBar() {
         </Link>
         <Link href="/UserAccount">MyAccount</Link>
         <SignedIn>
-          <div>Hello {user?.firstName}</div>
+          <div className="font-small space-x-4">Hello {user?.firstName}</div>
         </SignedIn>
         <div className="flex items-center space-x-4">
           {/* Menu Icon */}

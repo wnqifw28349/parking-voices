@@ -45,7 +45,9 @@ export default async function Voices() {
 
   return (
     <div className="bg-white shadow-md rounded-lg p-6 mb-4 hover:shadow-lg transition max-h-50">
-      <h2 className="text-2xl font-bold text-gray-800 mb-4">Active Voices</h2>
+      <h2 className="text-1xl font-bold mb-4 inline-block text-left w-full p-1 bg-green-600 text-[#022a22] bg-[#9acfe5]">
+        Active Voices
+      </h2>
       <ul
         className="space-y-4 overflow-y-auto scrollbar-thin scrollbar-thumb-gray-600 scrollbar-track-gray-200"
         style={{ maxHeight: "16rem" }}

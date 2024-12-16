@@ -2,17 +2,34 @@ export default function InteractionIcons(username) {
   return (
     <div className="flex">
       <div>
-        <p>("No. of voices")</p>
-        {/* <img src="" alt="amp svg Icon" /> */}
+        <button className="flex items-center justify-center bg-[#1da1f2] text-white w-8 h-8 rounded-full shadow-md">
+          <img
+            src="/ampicon.svg"
+            alt="amp button"
+            className="w-8 h-8 mr-1 items-center"
+            color="black"
+          />
+        </button>
       </div>
       <div>
-        <p>voices first_name's voices": {username}</p>
-        <div className="flex w-8 h-auto bg-blue-600">
-          {/* <img src="" alt="amp svg Icon" />
-            <img src="" alt="amp svg Icon" />
-            <img src="" alt="amp svg Icon" />
-            <img src="" alt="amp svg Icon" /> */}
-        </div>
+        <button className="flex items-center justify-center bg-[#1da1f2] text-white w-8 h-8 rounded-full shadow-md">
+          <img
+            src="/ampicon.svg"
+            alt="amp button"
+            className="w-8 h-8 mr-1 items-center"
+            color="black"
+          />
+        </button>
+      </div>
+      <div>
+        <button className="flex items-center justify-center bg-[#1da1f2] text-white w-8 h-8 rounded-full shadow-md">
+          <img
+            src="/ampicon.svg"
+            alt="amp button"
+            className="w-8 h-8 mr-1 items-center"
+            color="black"
+          />
+        </button>
       </div>
     </div>
   );
