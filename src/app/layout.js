@@ -1,17 +1,18 @@
-import Image from "next/image";
-import React, { ReactNode } from "react";
-import SideMenu from "./components/sidemenu";
-import "./globals.css";
-import Link from "next/link";
-import NavBar from "./components/NavBar";
+import Image from 'next/image';
+import React, { ReactNode } from 'react';
+import SideMenu from './components/sidemenu';
+import './globals.css';
+import Link from 'next/link';
+import NavBar from './components/NavBar';
 import {
   ClerkProvider,
   SignInButton,
   SignedIn,
   SignedOut,
   UserButton,
-} from "@clerk/nextjs";
-import Home from "./page";
+} from '@clerk/nextjs';
+import Home from './page';
+import Footer from './components/Footer';
 
 export default function RootLayout({ children }) {
   return (
@@ -54,7 +55,7 @@ export default function RootLayout({ children }) {
           </main>
 
           {/* Footer */}
-          <footer className="bg-gray-200 py-4 flex items-center justify-center">
+          {/* <footer className="bg-gray-200 py-4 flex items-center justify-center">
             <p>Driving & Parking Blog</p>
             <a
               className="flex items-center gap-2 hover:underline hover:underline-offset-4 h-10"
@@ -71,7 +72,9 @@ export default function RootLayout({ children }) {
               />
               Go to nextjs.org →
             </a>
-          </footer>
+          </footer> */}
+
+          <Footer />
         </body>
       </html>
     </ClerkProvider>

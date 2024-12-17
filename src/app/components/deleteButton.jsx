@@ -18,7 +18,7 @@ export default function DeleteButton({ voiceId, refreshData }) {
 
   return (
     <button
-      action={handleDelete()}
+      // formAction={handleDelete()}
       className="bg-red-500 text-white font-bold py-1 px-3 rounded hover:bg-red-600"
     >
       Delete
