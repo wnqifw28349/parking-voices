@@ -1,9 +1,3 @@
-import middleware from "../middleware";
-import Image from "next/image";
-import UserPosts from "./user-posts/page";
-import PostVoicesClient from "./components/PostVoicesClient";
-import PostVoices from "./components/PostVoices";
-import Link from "next/link";
 import { ClerkProvider, SignedIn, SignedOut } from "@clerk/nextjs";
 // import { auth } from '@clerk/nextjs/server';
 import VoiceOfDay from "./components/VoiceOfDay";

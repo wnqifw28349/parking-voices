@@ -48,7 +48,7 @@ export default function SideMenu() {
             Categories
           </Link>
           <Link
-            href="/user-posts"
+            href="/voices"
             className="flex justify-between items-center hover:text-gray-900 font-small active:text-blue-600"
           >
             Voices
