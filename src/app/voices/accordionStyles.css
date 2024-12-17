@@ -1,0 +1,36 @@
+.AccordionContent {
+  will-change: transform;
+  position: absolute;
+  bottom: 100%;
+  left: 0;
+  width: 100%;
+  overflow: hidden;
+  /* transform: scaleY(0); */
+  transform-origin: bottom;
+  /* transition: transform 300ms ease-out; */
+}
+
+.AccordionContent[data-state="open"] {
+  animation: slideUp 500ms ease-out;
+}
+.AccordionContent[data-state="closed"] {
+  animation: slideDown 500ms ease-out;
+}
+
+@keyframes slideDown {
+  from {
+    height: var(--radix-accordion-content-height);
+  }
+  to {
+    height: 0;
+  }
+}
+
+@keyframes slideUp {
+  from {
+    height: 0;
+  }
+  to {
+    height: var(--radix-accordion-content-height);
+  }
+}

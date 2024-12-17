@@ -2,6 +2,10 @@ import Link from "next/link";
 import { db } from "@/utils/db";
 import { SignedIn, SignedOut } from "@clerk/nextjs";
 import PostForm from "@/app/components/PostForm";
+import AmpButtons from "../components/AmpButtons";
+import * as Accordion from "@radix-ui/react-accordion";
+import { ChevronDownIcon } from "@radix-ui/react-icons";
+import "./accordionStyles.css";
 
 export default async function Voices() {
   // Fetch voices with comments and nested replies
@@ -44,12 +48,11 @@ export default async function Voices() {
   }
 
   return (
-    <div className="bg-white shadow-md rounded-lg p-6 mb-4 hover:shadow-lg transition max-h-50">
-      <h2 className="text-2xl font-bold text-gray-800 mb-4">Active Voices</h2>
-      <ul
-        className="space-y-4 overflow-y-auto scrollbar-thin scrollbar-thumb-gray-600 scrollbar-track-gray-200"
-        style={{ maxHeight: "16rem" }}
-      >
+    <div className="flex flex-col h-full bg-white shadow-md rounded-lg p-6 hover:shadow-lg transition">
+      <h2 className="text-1xl font-bold mb-4 inline-block text-left w-full p-1 bg-green-600 text-[#022a22]">
+        Active Voices
+      </h2>
+      <ul className="space-y-4 flex-grow overflow-y-auto scrollbar-thin scrollbar-thumb-gray-600 scrollbar-track-gray-200">
         {voices.map((voice) => {
           // Build the nested comment tree for the current voice
           const nestedComments = buildCommentTree(voice.comments);
@@ -72,6 +75,9 @@ export default async function Voices() {
                 <p className="text-sm text-gray-400 mb-4">
                   Location: {voice.location}
                 </p>
+                <div>
+                  <AmpButtons voiceId={voice.voice_id} />
+                </div>
               </div>
 
               {/* Comments Section */}
@@ -92,8 +98,25 @@ export default async function Voices() {
           );
         })}
       </ul>
+      {/* Accordion Component for "Raise your voice" */}
       <SignedIn>
-        <PostForm />{" "}
+        <Accordion.Root
+          type="single"
+          collapsible
+          className="relative w-full rounded-md bg-purple-100 shadow-md mt-6"
+        >
+          <Accordion.Item value="raise-voice" className="relative">
+            <Accordion.Header>
+              <Accordion.Trigger className="group flex items-center justify-between w-full px-4 py-2 text-lg font-bold bg-purple-300 text-purple-900 hover:bg-purple-400 rounded-md shadow-md">
+                <span>Raise your voice</span>
+                <ChevronDownIcon className="transform transition-transform group-data-[state=open]:rotate-180" />
+              </Accordion.Trigger>
+            </Accordion.Header>
+            <Accordion.Content className="AccordionContent bg-purple-50 px-4 py-6">
+              <PostForm />
+            </Accordion.Content>
+          </Accordion.Item>
+        </Accordion.Root>
       </SignedIn>
     </div>
   );
