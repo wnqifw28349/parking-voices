@@ -16,7 +16,7 @@ export default function Footer() {
   return (
     <div className="flex flex-col bg-white">
       <div className="flex shadow-lg justify-between mt-6 px-3">
-        <div className="flex flex-shrink-0">
+        <div className="flex">
           <FontAwesomeIcon icon={faLocationDot} className="w-10 h-8" />
           <div>
             <h4>Find us</h4>
