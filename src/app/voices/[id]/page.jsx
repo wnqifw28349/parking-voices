@@ -1,9 +1,14 @@
-import Link from "next/link";
+import { redirect } from "next/navigation";
 import { db } from "@/utils/db";
 import CommentForm from "@/app/components/CommentForm";
+import { currentUser } from "@clerk/nextjs/server";
+import DeleteVoiceButton from "@/app/components/DeleteVoiceButton";
+import { delay } from "@/app/components/Delay";
 
 export default async function singleVoicePage({ params }) {
   const { id } = await params;
+  const session = await currentUser();
+  const clerkId = session.id;
 
   async function fetchVoiceAndComments(voiceId) {
     const voicesQuery = `
@@ -14,7 +19,8 @@ export default async function singleVoicePage({ params }) {
         voices.location,
         voices.amplifiers_count,
         voices.created_at,
-        users.username
+        users.username,
+        users.clerk_id
       FROM voices
       LEFT JOIN users ON voices.user_id = users.user_id
       WHERE voices.voice_id = $1;
@@ -59,7 +65,8 @@ export default async function singleVoicePage({ params }) {
   const { voice, comments } = await fetchVoiceAndComments(id);
 
   if (!voice) {
-    return <p>Voice not found.</p>;
+    await delay(3000);
+    redirect("/voices");
   }
 
   function Comment({ comment, voiceId }) {
@@ -99,6 +106,9 @@ export default async function singleVoicePage({ params }) {
         <h3 className="text-lg font-semibold text-gray-700">{voice.content}</h3>
         <p className="text-sm text-gray-400">Category: {voice.category}</p>
         <p className="text-sm text-gray-400 mb-4">Location: {voice.location}</p>
+        {clerkId === voice.clerk_id && (
+          <DeleteVoiceButton voiceId={voice.voice_id} />
+        )}
       </div>
       <details className="group">
         <summary className="text-sm font-medium text-gray-700 cursor-pointer hover:text-gray-900">
