@@ -1,9 +1,9 @@
-import pg from "pg";
-import { db } from "../../utils/db";
-import { redirect } from "next/navigation";
-import DeleteButton from "../components/deletebutton";
-import AmpButtons from "../components/AmpButtons";
-import { deleteVoice } from "../../actions/deleteVoice";
+import pg from 'pg';
+import { db } from '../../utils/db';
+import { redirect } from 'next/navigation';
+// import DeleteButton from '../components/deletebutton';
+import AmpButtons from '../components/AmpButtons';
+import { deleteVoice } from '../../actions/deleteVoice';
 
 export default async function UserPosts() {
   try {
@@ -12,7 +12,7 @@ export default async function UserPosts() {
     const response = await db.query(`SELECT * FROM comments`);
     const comments = response.rows;
 
-    console.log("DB Responsive");
+    console.log('DB Responsive');
     // console.log(voices);
 
     return (
@@ -20,9 +20,9 @@ export default async function UserPosts() {
         <h2 className="text-2xl font-bold text-gray-800 mb-4">Active Voices</h2>
         <ul
           className="space-y-4 overflow-y-auto scrollbar-thin scrollbar-thumb-gray-600 scrollbar-track-gray-200"
-          style={{ maxHeight: "16rem" }}
+          style={{ maxHeight: '16rem' }}
         >
-          {voices.map((voice) => (
+          {voices.map(voice => (
             <li
               key={voice.voice_id}
               className="bg-gray-50 p-4 rounded-lg shadow-sm hover:shadow-md transition "
@@ -52,8 +52,8 @@ export default async function UserPosts() {
                 </summary>
                 <ul className="mt-2 pl-4 border-l-2 border-gray-200 space-y-2">
                   {comments
-                    .filter((comment) => comment.voice_id === voice.voice_id) // Match comments to the voice
-                    .map((comment) => (
+                    .filter(comment => comment.voice_id === voice.voice_id) // Match comments to the voice
+                    .map(comment => (
                       <li
                         key={comment.comment_id}
                         className="text-sm text-gray-600"
@@ -74,7 +74,7 @@ export default async function UserPosts() {
       </div>
     );
   } catch (error) {
-    console.error("Database Query Error:", error);
+    console.error('Database Query Error:', error);
     return (
       <div>
         <h2>Error loading reviews</h2>
