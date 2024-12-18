@@ -23,14 +23,16 @@ import {
 
 export const Logo = () => {
   return (
-    <img
-      height="36"
-      src="/logo.svg"
-      alt="Logo"
-      className="w-10 h-10"
-      width={36}
-      href="/"
-    />
+    <Link color="foreground" href="/">
+      <img
+        height="36"
+        src="/logo.svg"
+        alt="Logo"
+        className="w-10 h-10"
+        width={36}
+        href="/"
+      />
+    </Link>
   );
 };
 export default function App() {
@@ -62,12 +64,12 @@ export default function App() {
 
       <NavbarContent className="hidden lg:flex gap-4" justify="right">
         <NavbarItem>
-          <Link color="foreground" href="#Articles">
+          <Link color="foreground" href="/Articles">
             Articles
           </Link>
         </NavbarItem>
         <NavbarItem>
-          <Link color="foreground" href="#Voices">
+          <Link color="foreground" href="/Voices">
             Voices
           </Link>
         </NavbarItem>
