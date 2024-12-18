@@ -31,7 +31,7 @@ export async function POST(req) {
   console.log("Webhook verified:", msg);
 
   // Extract id, username, and email_address
-  const { id, username, email_addresses } = msg.data;
+  const { id, username, email_addresses, image_url } = msg.data;
 
   if (!id || !username) {
     console.error("Missing id or username in webhook payload");
@@ -43,21 +43,23 @@ export async function POST(req) {
   // Extract email_address from the email_addresses array
   const email = email_addresses?.[0]?.email_address;
 
-  if (!email) {
-    console.error("Missing email_address in webhook payload");
-    return new Response("Bad Request: Missing email_address", {
-      status: 400,
-    });
-  }
-
   if (msg.type === "user.created") {
+    if (!username || !email) {
+      console.error(
+        "Missing username or email_address in user.created payload"
+      );
+      return new Response("Bad Request: Missing required fields", {
+        status: 400,
+      });
+    }
+
     try {
       // Insert into database
       const result = await db.query(
-        `INSERT INTO users (clerk_id, username, email)
-       VALUES ($1, $2, $3)
-       RETURNING *;`,
-        [id, username, email]
+        `INSERT INTO users (clerk_id, username, email, profile_image)
+         VALUES ($1, $2, $3, $4)
+         RETURNING *;`,
+        [id, username, email, image_url]
       );
 
       console.log("Inserted user into database:", result.rows[0]);
@@ -65,6 +67,49 @@ export async function POST(req) {
       console.error("Database insertion failed:", err);
       return new Response("Internal Server Error", { status: 500 });
     }
+  } else if (msg.type === "user.updated") {
+    if (!username || !email) {
+      console.error(
+        "Missing username or email_address in user.updated payload"
+      );
+      return new Response("Bad Request: Missing required fields", {
+        status: 400,
+      });
+    }
+
+    try {
+      // Update the database record
+      const result = await db.query(
+        `UPDATE users
+         SET username = $1, email = $2, profile_image = $3
+         WHERE clerk_id = $4
+         RETURNING *;`,
+        [username, email, image_url, id]
+      );
+
+      console.log("Updated user in database:", result.rows[0]);
+    } catch (err) {
+      console.error("Database update failed:", err);
+      return new Response("Internal Server Error", { status: 500 });
+    }
+  } else if (msg.type === "user.deleted") {
+    try {
+      // Delete the user from the database
+      const result = await db.query(
+        `DELETE FROM users
+         WHERE clerk_id = $1
+         RETURNING *;`,
+        [id]
+      );
+
+      console.log("Deleted user from database:", result.rows[0]);
+    } catch (err) {
+      console.error("Database deletion failed:", err);
+      return new Response("Internal Server Error", { status: 500 });
+    }
+  } else {
+    console.log("Unhandled webhook event type:", msg.type);
+    return new Response("OK", { status: 200 });
   }
 
   return new Response("OK", { status: 200 });
