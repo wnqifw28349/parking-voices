@@ -1,25 +1,44 @@
-import Link from "next/link";
 import { db } from "@/utils/db";
-import { SignedIn, SignedOut } from "@clerk/nextjs";
 import PostForm from "@/app/components/PostForm";
-import AmpButtons from "../components/AmpButtons";
 import * as Accordion from "@radix-ui/react-accordion";
 import { ChevronDownIcon } from "@radix-ui/react-icons";
-import "./accordionStyles.css";
-import DeleteVoiceButton from "../components/DeleteVoiceButton";
+import { SignedIn } from "@clerk/nextjs";
+import Link from "next/link";
+import { auth } from "@clerk/nextjs/dist/types/server";
+import DeleteVoiceButton from "@/app/components/DeleteVoiceButton";
 
-export default async function Voices() {
-  // Fetch voices with comments and nested replies
-  const voicesQuery = `
-    SELECT 
-      voices.voice_id,
-      voices.content,
-      voices.category,
-      voices.location,
-      voices.amplifiers_count,
-      voices.created_at,
-      users.username,
-      COALESCE(json_agg(
+export default async function UserPage({ params }) {
+  //use the clerk Id to retrieve the user_id of the currently signed-in user
+  const { userId } = await auth();
+  if (!userId) console.log("not signed in");
+  const reqUserId = await db.query(
+    `SELECT user_id, username FROM users WHERE clerk_id=$1`,
+    [userId]
+  );
+  const userData = reqUserId.rows;
+  const currentUser = userData.user_Id;
+
+  //use the username from params to retrieve user_id of that user's profile
+  const username = (await params).username;
+  const reqProfileId = await db.query(
+    `SELECT user_id, username FROM users WHERE username = $1`,
+    [username]
+  );
+  const profileData = reqProfileId.rows;
+  const profileId = profileData.user_id; //user id of [username]'s profile
+
+  //retrieve associated voices for the user's profile
+  const resPosts = await db.query(
+    `SELECT 
+   voices.user_id,
+   voices.voice_id,
+   voices.content,
+   voices.category,
+   voices.location,
+   voices.amplifiers_count,
+   voices.created_at,
+   COUNT (comments.parent_comment_id) AS comments_count,
+   COALESCE(json_agg(
         json_build_object(
           'comment_id', comments.comment_id,
           'content', comments.content,
@@ -27,16 +46,17 @@ export default async function Voices() {
           'parent_comment_id', comments.parent_comment_id
         )
       ) FILTER (WHERE comments.comment_id IS NOT NULL), '[]') AS comments
-    FROM voices
-    LEFT JOIN users ON voices.user_id = users.user_id
-    LEFT JOIN amplifiers ON voices.voice_id = amplifiers.voice_id
-    LEFT JOIN comments ON voices.voice_id = comments.voice_id
-    LEFT JOIN users AS comment_users ON comments.user_id = comment_users.user_id
-    GROUP BY voices.voice_id, users.username
-    ORDER BY voices.created_at DESC;
-  `;
+FROM voices 
+LEFT JOIN comments ON voices.voice_id = comments.voice_id
+LEFT JOIN amplifiers ON voices.voice_id = amplifiers.voice_id
+LEFT JOIN users AS comment_users ON comments.user_id = comment_users.user_id
+GROUP BY voices.voice_id
+HAVING voices.user_id = $1
+ORDER BY voices.created_at DESC`,
+    [profileId]
+  );
 
-  const { rows: voices } = await db.query(voicesQuery);
+  const voices = resPosts.rows;
 
   // Build a nested comment structure
   function buildCommentTree(comments, parentCommentId = null) {
@@ -51,7 +71,7 @@ export default async function Voices() {
   return (
     <div className="flex flex-col h-full bg-white shadow-md rounded-lg p-6 hover:shadow-lg transition">
       <h2 className="text-1xl font-bold mb-4 inline-block text-left w-full p-1 bg-green-600 text-[#022a22]">
-        Active Voices
+        {username}&apos;s Active Voices
       </h2>
       <ul className="space-y-4 flex-grow overflow-y-auto scrollbar-thin scrollbar-thumb-gray-600 scrollbar-track-gray-200">
         {voices.map((voice) => {
@@ -64,23 +84,26 @@ export default async function Voices() {
               className="bg-gray-50 p-4 rounded-lg shadow-sm hover:shadow-md transition"
             >
               <div>
-                <p>{voice.username} voiced:</p>
+                <Link href={`/profile/${voice.username}`}>
+                  <p>{voice.username} voiced:</p>
+                </Link>
+
                 <Link href={`/voices/${voice.voice_id}`}>
                   <h3 className="text-lg font-semibold text-gray-700">
                     {voice.content}
                   </h3>
                 </Link>
-                <p className="text-xs text-gray-400">
+                <p className="text-sm text-gray-400">
                   Category: {voice.category}
                 </p>
-                <p className="text-xs text-gray-400 mb-4">
+                <p className="text-sm text-gray-400 mb-4">
                   Location: {voice.location}
                 </p>
+                {/* conditionally rendering the delete button */}
                 <div>
-                  <AmpButtons voiceId={voice.voice_id} />
-                </div>
-                <div>
-                  <DeleteVoiceButton voiceId={voice.voice_id} />
+                  <SignedIn>
+                    {currentUser === profileId ? <DeleteVoiceButton /> : null}
+                  </SignedIn>
                 </div>
               </div>
 

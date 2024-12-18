@@ -22,7 +22,7 @@ export default function RootLayout({ children }) {
           <Header className="bg-white shadow-md w-full max-height-20 z-50" />
 
           {/*Main Content*/}
-          <main className="bg-purple-100 py-6 px-4 rounded-lg shadow-md max-w-lg mx-auto overflow-y-auto">
+          <main className="bg-purple-100 py-6 px-4 rounded-lg shadow-md min-w-80 max-w-lg mx-auto overflow-y-auto">
             {children}
           </main>
 

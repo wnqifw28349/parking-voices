@@ -1,25 +1,37 @@
-import Link from "next/link";
 import { db } from "@/utils/db";
-import { SignedIn, SignedOut } from "@clerk/nextjs";
+import { auth } from "@clerk/nextjs/dist/types/server";
+import Link from "next/link";
+import { SignedIn } from "@clerk/nextjs";
 import PostForm from "@/app/components/PostForm";
-import AmpButtons from "../components/AmpButtons";
 import * as Accordion from "@radix-ui/react-accordion";
 import { ChevronDownIcon } from "@radix-ui/react-icons";
 import "./accordionStyles.css";
-import DeleteVoiceButton from "../components/DeleteVoiceButton";
 
-export default async function Voices() {
-  // Fetch voices with comments and nested replies
-  const voicesQuery = `
-    SELECT 
-      voices.voice_id,
-      voices.content,
-      voices.category,
-      voices.location,
-      voices.amplifiers_count,
-      voices.created_at,
-      users.username,
-      COALESCE(json_agg(
+export default async function ProfilePage() {
+  const { userId, redirectToSignIn } = await auth(); //obtaining clerk Id from auth object
+  if (!userId) return redirectToSignIn; //clerk provides the redirectToSignIn method
+
+  //use the clerk Id to retrieve the user_id of the current user
+  const reqUser = await db.query(
+    `SELECT user_id, username FROM users WHERE clerk_id=$1`,
+    [userId]
+  );
+  const userData = reqUser.rows;
+  const Id = userData.user_id; //current user's id
+  const username = userData.username; //current user's username
+
+  //fetch all posts associated with the current user's user_id
+  const resPosts = await db.query(
+    `SELECT 
+   voices.user_id,
+   voices.voice_id,
+   voices.content,
+   voices.category,
+   voices.location,
+   voices.amplifiers_count,
+   voices.created_at,
+   COUNT (comments.parent_comment_id) AS comments_count,
+   COALESCE(json_agg(
         json_build_object(
           'comment_id', comments.comment_id,
           'content', comments.content,
@@ -27,16 +39,18 @@ export default async function Voices() {
           'parent_comment_id', comments.parent_comment_id
         )
       ) FILTER (WHERE comments.comment_id IS NOT NULL), '[]') AS comments
-    FROM voices
-    LEFT JOIN users ON voices.user_id = users.user_id
-    LEFT JOIN amplifiers ON voices.voice_id = amplifiers.voice_id
-    LEFT JOIN comments ON voices.voice_id = comments.voice_id
-    LEFT JOIN users AS comment_users ON comments.user_id = comment_users.user_id
-    GROUP BY voices.voice_id, users.username
-    ORDER BY voices.created_at DESC;
-  `;
+FROM voices 
+LEFT JOIN comments ON voices.voice_id = comments.voice_id
+LEFT JOIN amplifiers ON voices.voice_id = amplifiers.voice_id
+LEFT JOIN users AS comment_users ON comments.user_id = comment_users.user_id
+GROUP BY voices.voice_id
+HAVING voices.user_id = $1
+ORDER BY voices.created_at DESC`,
+    [Id]
+  );
+  console.log(resPosts);
 
-  const { rows: voices } = await db.query(voicesQuery);
+  const voices = resPosts.rows;
 
   // Build a nested comment structure
   function buildCommentTree(comments, parentCommentId = null) {
@@ -51,7 +65,7 @@ export default async function Voices() {
   return (
     <div className="flex flex-col h-full bg-white shadow-md rounded-lg p-6 hover:shadow-lg transition">
       <h2 className="text-1xl font-bold mb-4 inline-block text-left w-full p-1 bg-green-600 text-[#022a22]">
-        Active Voices
+        {username}&apos;s Active Voices
       </h2>
       <ul className="space-y-4 flex-grow overflow-y-auto scrollbar-thin scrollbar-thumb-gray-600 scrollbar-track-gray-200">
         {voices.map((voice) => {
@@ -64,24 +78,21 @@ export default async function Voices() {
               className="bg-gray-50 p-4 rounded-lg shadow-sm hover:shadow-md transition"
             >
               <div>
-                <p>{voice.username} voiced:</p>
+                <Link href={`/profile/${voice.username}`}>
+                  <p>{voice.username} voiced:</p>
+                </Link>
+
                 <Link href={`/voices/${voice.voice_id}`}>
                   <h3 className="text-lg font-semibold text-gray-700">
                     {voice.content}
                   </h3>
                 </Link>
-                <p className="text-xs text-gray-400">
+                <p className="text-sm text-gray-400">
                   Category: {voice.category}
                 </p>
-                <p className="text-xs text-gray-400 mb-4">
+                <p className="text-sm text-gray-400 mb-4">
                   Location: {voice.location}
                 </p>
-                <div>
-                  <AmpButtons voiceId={voice.voice_id} />
-                </div>
-                <div>
-                  <DeleteVoiceButton voiceId={voice.voice_id} />
-                </div>
               </div>
 
               {/* Comments Section */}
