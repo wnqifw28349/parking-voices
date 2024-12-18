@@ -2,16 +2,8 @@ import Image from "next/image";
 import React, { ReactNode } from "react";
 import SideMenu from "./components/sidemenu";
 import "./globals.css";
-import Link from "next/link";
-import NavBar from "./components/NavBar";
-import {
-  ClerkProvider,
-  SignInButton,
-  SignedIn,
-  SignedOut,
-  UserButton,
-} from "@clerk/nextjs";
-import Home from "./page";
+
+import { ClerkProvider } from "@clerk/nextjs";
 import Header from "./components/Header";
 
 export default function RootLayout({ children }) {

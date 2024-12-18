@@ -1,63 +1,65 @@
 "use client";
 
-import { useFormStatus } from "react-dom";
-import clsx from "clsx";
-import Image from "next/image";
-import {
-  TbArrowBigDown,
-  TbArrowBigDownFilled,
-  TbArrowBigUp,
-  TbArrowBigUpFilled,
-} from "react-icons/tb";
+import { FaBroadcastTower } from "react-icons/fa";
 import { FaSpinner } from "react-icons/fa";
+import { useState } from "react";
 
-export default function AmpButtons({ amp, damp, amps, existingAmps }) {
-  const { pending, data, method, action } = useFormStatus();
+export default function AmpButtons({
+  toggleAmp,
+  amplifiersCount,
+  existingAmp,
+}) {
+  const [count, setCount] = useState(amplifiersCount);
+  const [ampState, setAmpState] = useState(!!existingAmp);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
+
+  const handleToggleAmp = async () => {
+    setLoading(true);
+    setError(null);
+
+    try {
+      // Call the server action
+      await toggleAmp();
+
+      // Update local state optimistically
+      if (ampState) {
+        setCount(count - 1);
+        setAmpState(false);
+      } else {
+        setCount(count + 1);
+        setAmpState(true);
+      }
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
-    <>
-      <button formAction={amp}>
-        {existingAmps?.vote === 1 ? (
-          <TbArrowBigUpFilled
+    <div className="flex items-center">
+      <button
+        onClick={handleToggleAmp}
+        className="focus:outline-none"
+        disabled={loading}
+      >
+        {ampState ? (
+          <FaBroadcastTowerFilled
             size={24}
-            className={clsx("hover:text-orange-600", {
-              "text-pink-300": existingAmps?.vote === 1,
-            })}
+            className="text-red-500 hover:text-red-600"
           />
         ) : (
-          <TbArrowBigUp
+          <FaBroadcastTower
             size={24}
-            className={clsx("hover:text-orange-600", {
-              "text-pink-300": existingAmps?.vote === 1,
-            })}
+            className="text-gray-500 hover:text-gray-600"
           />
         )}
       </button>
-      <span className="w-6 text-center tabular-nums">
-        {pending ? (
-          <span className="animate-spin h-6  w-6 flex items-center justify-center">
-            <FaSpinner />
-          </span>
-        ) : (
-          amps
-        )}
+      <span className="ml-2 text-center">
+        {loading ? <FaSpinner className="animate-spin" /> : count}
       </span>
-      <button formAction={damp}>
-        {existingAmps?.vote === -1 ? (
-          <TbArrowBigDownFilled
-            size={24}
-            className={clsx("hover:text-blue-600", {
-              "text-blue-300": existingAmps?.vote === -1,
-            })}
-          />
-        ) : (
-          <TbArrowBigDown
-            size={24}
-            className={clsx("hover:text-blue-600", {
-              "text-blue-300": existingAmps?.vote === -1,
-            })}
-          />
-        )}
-      </button>
-    </>
+      {error && <p className="text-red-500 text-sm ml-3">{error}</p>}
+    </div>
   );
 }

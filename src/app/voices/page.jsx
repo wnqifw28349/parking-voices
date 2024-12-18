@@ -64,7 +64,9 @@ export default async function Voices() {
               className="bg-gray-50 p-4 rounded-lg shadow-sm hover:shadow-md transition"
             >
               <div>
-                <p>{voice.username} voiced:</p>
+                <Link href={`/profile/${voice.username}`}>
+                  <p>{voice.username} voiced:</p>
+                </Link>
                 <Link href={`/voices/${voice.voice_id}`}>
                   <h3 className="text-lg font-semibold text-gray-700">
                     {voice.content}
@@ -78,9 +80,6 @@ export default async function Voices() {
                 </p>
                 <div>
                   <AmpButtons voiceId={voice.voice_id} />
-                </div>
-                <div>
-                  <DeleteVoiceButton voiceId={voice.voice_id} />
                 </div>
               </div>
 

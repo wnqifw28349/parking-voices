@@ -8,7 +8,10 @@ import { delay } from "@/app/components/Delay";
 export default async function singleVoicePage({ params }) {
   const { id } = await params;
   const session = await currentUser();
-  const clerkId = session.id;
+  let clerkId;
+  if (session) {
+    clerkId = session.id;
+  }
 
   async function fetchVoiceAndComments(voiceId) {
     const voicesQuery = `
@@ -106,7 +109,7 @@ export default async function singleVoicePage({ params }) {
         <h3 className="text-lg font-semibold text-gray-700">{voice.content}</h3>
         <p className="text-sm text-gray-400">Category: {voice.category}</p>
         <p className="text-sm text-gray-400 mb-4">Location: {voice.location}</p>
-        {clerkId === voice.clerk_id && (
+        {clerkId && clerkId === voice.clerk_id && (
           <DeleteVoiceButton voiceId={voice.voice_id} />
         )}
       </div>
