@@ -4,27 +4,33 @@ import * as Accordion from "@radix-ui/react-accordion";
 import { ChevronDownIcon } from "@radix-ui/react-icons";
 import { SignedIn } from "@clerk/nextjs";
 import Link from "next/link";
-import { auth } from "@clerk/nextjs/dist/types/server";
+import { auth } from "@clerk/nextjs/server";
 import DeleteVoiceButton from "@/app/components/DeleteVoiceButton";
 
 export default async function UserPage({ params }) {
   //use the clerk Id to retrieve the user_id of the currently signed-in user
   const { userId } = await auth();
-  if (!userId) console.log("not signed in");
-  const reqUserId = await db.query(
-    `SELECT user_id, username FROM users WHERE clerk_id=$1`,
-    [userId]
-  );
-  const userData = reqUserId.rows;
-  const currentUser = userData.user_Id;
+  let reqUserId;
+  let userData;
+  let currentUser;
+  if (userId) {
+    reqUserId = await db.query(
+      `SELECT user_id, username FROM users WHERE clerk_id=$1`,
+      [userId]
+    );
+
+    userData = reqUserId.rows[0];
+    console.log("this is userData", userData);
+    currentUser = userData.user_id;
+  }
 
   //use the username from params to retrieve user_id of that user's profile
-  const username = (await params).username;
+  const { username } = await params;
   const reqProfileId = await db.query(
     `SELECT user_id, username FROM users WHERE username = $1`,
     [username]
   );
-  const profileData = reqProfileId.rows;
+  const profileData = reqProfileId.rows[0];
   const profileId = profileData.user_id; //user id of [username]'s profile
 
   //retrieve associated voices for the user's profile
