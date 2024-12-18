@@ -96,3 +96,7 @@ export default function VoiceOfDay({ data }) {
     </div>
   );
 }
+
+// amps keys del keys:
+ <DeleteButton key={voice.voice_id} voiceId={voice.voice_id} />
+                <AmpButtons voiceId={voice.voice_id} />

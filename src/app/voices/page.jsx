@@ -6,6 +6,7 @@ import AmpButtons from "../components/AmpButtons";
 import * as Accordion from "@radix-ui/react-accordion";
 import { ChevronDownIcon } from "@radix-ui/react-icons";
 import "./accordionStyles.css";
+import DeleteVoiceButton from "../components/DeleteVoiceButton";
 
 export default async function Voices() {
   // Fetch voices with comments and nested replies
@@ -69,14 +70,17 @@ export default async function Voices() {
                     {voice.content}
                   </h3>
                 </Link>
-                <p className="text-sm text-gray-400">
+                <p className="text-xs text-gray-400">
                   Category: {voice.category}
                 </p>
-                <p className="text-sm text-gray-400 mb-4">
+                <p className="text-xs text-gray-400 mb-4">
                   Location: {voice.location}
                 </p>
                 <div>
                   <AmpButtons voiceId={voice.voice_id} />
+                </div>
+                <div>
+                  <DeleteVoiceButton voiceId={voice.voice_id} />
                 </div>
               </div>
 
