@@ -47,15 +47,15 @@ export default function AmpButtons({
           {ampState ? (
             <FaBroadcastTower
               size={24}
-              className="text-[#c1a0e0] hover:text-[#8464a2]"
+              className="text-[#573391] hover:bg-[#8464a2]"
             />
           ) : (
             <FaBroadcastTower
               size={24}
               className={`${
                 isSignedIn
-                  ? "text-gray-500 hover:text-[#c1a0e0]"
-                  : "text-gray-300"
+                  ? "text-[#573391] hover:text-[#c1a0e0]"
+                  : "text-[#357C3C]"
               }`}
             />
           )}
