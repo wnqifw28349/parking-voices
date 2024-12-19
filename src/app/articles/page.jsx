@@ -7,6 +7,7 @@ import * as Accordion from "@radix-ui/react-accordion";
 import { ChevronDownIcon } from "@radix-ui/react-icons";
 import "./accordionStyles.css";
 import DeleteVoiceButton from "../components/DeleteVoiceButton";
+import InteractionIcons from "../components/InteractionIcon";
 import {
   Card,
   CardTitle,
@@ -73,8 +74,8 @@ export default async function Voices() {
               key={voice.voice_id}
               className="bg-gray-50 p-4 rounded-lg shadow-sm hover:shadow-md transition"
             >
-              <Card>
-                <CardTitle className="flex items-center justify-between p-6 bg-[#f2f2f2] h-5">
+              <Card className="bg-[#BDE8CA]">
+                <CardTitle className="flex items-center justify-between p-6 bg-[#F9E6CF] h-5">
                   <div>
                     <p className="text-xs flex xs:text-xs sm:text-sm text-green-600 items-center">
                       Category: {voice.category}
@@ -86,7 +87,7 @@ export default async function Voices() {
                     </p>
                   </div>
                 </CardTitle>
-                <CardContent className="flex items-center justify-center mt-2 ">
+                <CardContent className="flex items-center justify-center mt-2 bd-[#FAC67A] ">
                   <div>
                     <Link href={`/voices/${voice.voice_id}`}>
                       <h3 className="text-lg font-semibold justify-center text-gray-700">
@@ -95,38 +96,40 @@ export default async function Voices() {
                     </Link>
                   </div>
                 </CardContent>
-                <CardFooter className="flex justify-between">
-                  <div className="flex-row justify-between">
-                    <img
-                      src="/logo.svg"
-                      height={10}
-                      weight={10}
-                      className="w-7 h-7 rounded-full flex items-center justify-center text-white"
-                    />
-                  </div>
-                  <div>
-                    <p className="flex text-xs xs:text-xs sm:text-sm lg:text-base">
-                      {voice.username} 's voice
-                    </p>
-                    <Link href={`/voices/${voice.voice_id}`}></Link>
-                  </div>
-                  <div>
-                    <button className="flex items-center justify-center bg-[#022a22] text-white w-8 h-8 rounded-full shadow-md">
-                      <span className="text-sm text-center font-semibold w-4 h-4 mr-0 mb-1 hover:text-[#c1a0e0]">
-                        {voice.amplifiers_count}
-                      </span>
-                    </button>
-                  </div>
-                  <div>
-                    <AmpButtons voiceId={voice.voice_id} />
-                  </div>
-                  {/* <div>
+                <CardFooter className="flex items-center ">
+                  <div className="flex items-center justify-evenly rounded-full shadow-md bg-[#EF6D6D] w-full h-10">
+                    <div className="flex-row justify-between">
+                      <img
+                        src="/logo.svg"
+                        height={10}
+                        weight={10}
+                        className="w-7 h-7 rounded-full flex items-center justify-center text-white"
+                      />
+                    </div>
+                    <div>
+                      <p className="flex text-xs xs:text-xs sm:text-sm lg:text-base">
+                        {voice.username} 's voice
+                      </p>
+                      <Link href={`/voices/${voice.voice_id}`}></Link>
+                    </div>
+                    <div>
+                      <button className="flex items-center justify-center bg-[#022a22] text-white w-8 h-8 rounded-full shadow-md">
+                        <span className="text-sm text-center font-semibold w-4 h-4 mr-0 mb-1 hover:text-[#c1a0e0]">
+                          {voice.amplifiers_count}
+                        </span>
+                      </button>
+                    </div>
+                    <div>
+                      <AmpButtons voiceId={voice.voice_id} />
+                    </div>
+                    {/* <div>
                     <DeleteVoiceButton
                       voiceId={voice.voice_id}
                       h={5}
                       className="w-5 h-2"
                     />
                   </div> */}
+                  </div>
                 </CardFooter>
                 <CardDescription className="p-6 mb-2">
                   {/* Comments Section */}
@@ -136,7 +139,7 @@ export default async function Voices() {
                         {nestedComments.length} Comment
                         {nestedComments.length > 1 ? "s" : ""}
                       </summary>
-                      <ul className="mt-2 pl-4 border-l-2 border-gray-200 space-y-2 bg-[#cc7cdd]">
+                      <ul className="mt-2 pl-4 border-l-2 border-gray-200 space-y-2 bg-[#D7C3F1]">
                         {nestedComments.map((comment) => (
                           <CommentItem
                             key={comment.comment_id}

@@ -10,6 +10,10 @@ import {
 import { FiMenu, FiX } from "react-icons/fi";
 // import { auth, currentUser } from "@clerk/nextjs/server";
 import React from "react";
+import { SidebarIcon } from "lucide-react";
+import SideMenu from "./sidemenu";
+import { toggleMenu } from "./sidemenu";
+import { FaIcons } from "react-icons/fa";
 import {
   Navbar,
   NavbarBrand,
@@ -19,6 +23,7 @@ import {
   NavbarMenu,
   NavbarMenuItem,
   Link,
+  Button,
 } from "@nextui-org/react";
 
 export const Logo = () => {
@@ -37,7 +42,7 @@ export default function App() {
   const [isMenuOpen, setIsMenuOpen] = React.useState(false);
 
   const menuItems = [
-    "Profile",
+    <Link href="/Userprofile">Profile</Link>,
     "My Location",
     "Articles",
     "Appeal Directory",
@@ -47,27 +52,37 @@ export default function App() {
     "Log Out",
   ];
 
+  // const NavbarMenuToggle = (isMenuOpen: boolean) =>
+  //   !isMenuOpen ? <MenuOpenIcon /> : <MenuCloseIcon />;
+
   return (
-    <Navbar onMenuOpenChange={setIsMenuOpen} className="px-4 py-3 sm:px-6">
+    <Navbar>
+      <NavbarContent className="lg:hidden" justify="start">
+        <SideMenu isMenuOpen={isMenuOpen} className="lg:hidden" />
+      </NavbarContent>
       <NavbarContent>
-        {/* <NavbarMenuToggle
-          aria-label={isMenuOpen ? "Close menu" : "Open menu"}
-          className="lg:hidden"
-        /> */}
         <NavbarBrand>
-          <Logo />
-          <p className="font-bold text-inherit">Parking Voices</p>
+          <Link href="/" className="flex">
+            <Logo href="/" />
+            <p className="font-bold text-inherit" href="/">
+              Parking Voices
+            </p>
+          </Link>
         </NavbarBrand>
       </NavbarContent>
 
-      <NavbarContent className="hidden lg:flex gap-4" justify="right">
+      <NavbarContent
+        hidein="md"
+        className="hidden lg:flex gap-4"
+        justify="right"
+      >
         <NavbarItem>
-          <Link color="foreground" href="#Articles">
+          <Link color="foreground" href="/Articles">
             Articles
           </Link>
         </NavbarItem>
         <NavbarItem>
-          <Link color="foreground" href="#Voices">
+          <Link color="foreground" href="/Voices">
             Voices
           </Link>
         </NavbarItem>
@@ -87,17 +102,13 @@ export default function App() {
         <NavbarItem>
           <SignedOut>
             <SignInButton />
+            <Button auto flat href="/sign-in" />
           </SignedOut>
         </NavbarItem>
-        <NavbarItem>
-          <NavbarMenuToggle
-            aria-label={isMenuOpen ? "Close menu" : "Open menu"}
-            className="lg:hidden"
-            // { <FiX size={24} /> | <FiMenu size={24} />}
-          >
-            =
-          </NavbarMenuToggle>
-        </NavbarItem>
+        {/* <NavbarMenuToggle
+          aria-label={isMenuOpen ? "Close menu" : "Open menu"}
+          className="lg:hidden"
+        ></NavbarMenuToggle> */}
       </NavbarContent>
 
       <NavbarMenu>

@@ -1,4 +1,10 @@
-import { ClerkProvider, SignedIn, SignedOut } from "@clerk/nextjs";
+import {
+  ClerkProvider,
+  SignedIn,
+  SignedOut,
+  SignInButton,
+  SignIn,
+} from "@clerk/nextjs";
 // import { auth } from '@clerk/nextjs/server';
 import VoiceOfDay from "./components/VoiceOfDay";
 import Voices from "./voices/page";
