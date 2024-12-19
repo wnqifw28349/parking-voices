@@ -6,6 +6,7 @@ import PostForm from "@/app/components/PostForm";
 import * as Accordion from "@radix-ui/react-accordion";
 import { ChevronDownIcon } from "@radix-ui/react-icons";
 import "../voices/accordionStyles.css";
+import DeleteVoiceButton from "../components/DeleteVoiceButton";
 
 export default async function ProfilePage() {
   const { userId, redirectToSignIn } = await auth(); //obtaining clerk Id from auth object
@@ -32,8 +33,8 @@ export default async function ProfilePage() {
    voices.amplifiers_count,
    voices.created_at,
    COUNT (comments.parent_comment_id) AS comments_count,
-   COALESCE(json_agg(
-        json_build_object(
+   COALESCE(jsonb_agg(
+        DISTINCT jsonb_build_object(
           'comment_id', comments.comment_id,
           'content', comments.content,
           'username', comment_users.username,
@@ -94,6 +95,7 @@ ORDER BY voices.created_at DESC`,
                 <p className="text-sm text-gray-400 mb-4">
                   Location: {voice.location}
                 </p>
+                <DeleteVoiceButton voiceId={voice.voice_id} />
               </div>
 
               {/* Comments Section */}

@@ -4,6 +4,7 @@ import CommentForm from "@/app/components/CommentForm";
 import { currentUser } from "@clerk/nextjs/server";
 import DeleteVoiceButton from "@/app/components/DeleteVoiceButton";
 import { delay } from "@/app/components/Delay";
+import { Amp } from "@/app/components/AmpVote";
 
 export default async function singleVoicePage({ params }) {
   const { id } = await params;
@@ -109,13 +110,20 @@ export default async function singleVoicePage({ params }) {
         <h3 className="text-lg font-semibold text-gray-700">{voice.content}</h3>
         <p className="text-sm text-gray-400">Category: {voice.category}</p>
         <p className="text-sm text-gray-400 mb-4">Location: {voice.location}</p>
+        <div>
+          <Amp
+            voiceId={voice.voice_id}
+            amplifiersCount={voice.amplifiers_count}
+          />
+        </div>
         {clerkId && clerkId === voice.clerk_id && (
           <DeleteVoiceButton voiceId={voice.voice_id} />
         )}
       </div>
       <details className="group">
         <summary className="text-sm font-medium text-gray-700 cursor-pointer hover:text-gray-900">
-          Comments
+          {comments.length} Comment
+          {comments.length > 1 ? "s" : ""}
         </summary>
         <ul className="mt-2 pl-4 border-l-2 border-gray-200 space-y-2">
           {comments.map((comment) => (
