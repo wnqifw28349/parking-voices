@@ -39,12 +39,18 @@ export default function SideMenu() {
       <aside
         className={`fixed top-0 ${
           isMenuOpen ? "left-0" : "-left-[300px]"
-        } h-full w-[250px] bg-yellow-400 text-gray-800 p-5 flex flex-col gap-4 transition-all duration-300 ease-in-out z-40 shadow-lg`}
+        } h-full w-[250px] bg-[#D7C3F1] text-gray-800 p-5 flex flex-col gap-4 transition-all duration-300 ease-in-out z-40 shadow-lg`}
       >
         <h2 id="menu" className="mb-2 font-bold text-lg">
           Menu
         </h2>
 
+        <Link
+          href="/profile/"
+          className="hover:text-gray-900 font-small active:text-blue-600"
+        >
+          My Profile
+        </Link>
         <Link
           href="/articles/"
           className="hover:text-gray-900 font-small active:text-blue-600"

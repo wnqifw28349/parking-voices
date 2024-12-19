@@ -57,8 +57,8 @@ export default function App() {
 
   return (
     <Navbar>
-      <NavbarContent className="lg:hidden" justify="start">
-        <SideMenu isMenuOpen={isMenuOpen} className="lg:hidden" />
+      <NavbarContent className="lg:hidden p-6" justify="start">
+        <SideMenu isMenuOpen={isMenuOpen} className="lg:hidden " />
       </NavbarContent>
       <NavbarContent>
         <NavbarBrand>
