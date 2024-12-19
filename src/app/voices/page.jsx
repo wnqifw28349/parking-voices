@@ -8,6 +8,7 @@ import { ChevronDownIcon } from "@radix-ui/react-icons";
 import "./accordionStyles.css";
 import DeleteVoiceButton from "../components/DeleteVoiceButton";
 import InteractionIcons from "../components/InteractionIcon";
+import { FaSpinner } from "react-icons/fa";
 import {
   Card,
   CardTitle,
@@ -97,7 +98,7 @@ export default async function Voices() {
                   </div>
                 </CardContent>
                 <CardFooter className="flex items-center ">
-                  <div className="flex items-center justify-evenly rounded-full shadow-md bg-[#EF6D6D] w-full h-10">
+                  <div className="flex items-center justify-evenly rounded-full shadow-md bg-[#D7C3F1] w-full h-10">
                     <div className="flex-row justify-between">
                       <img
                         src="/logo.svg"
@@ -112,14 +113,13 @@ export default async function Voices() {
                       </p>
                       <Link href={`/voices/${voice.voice_id}`}></Link>
                     </div>
-                    {/* <div>
-                      <button className="flex items-center justify-center bg-[#022a22] text-white w-8 h-8 rounded-full shadow-md">
+                    <div>
+                      {/*<button className="flex items-center justify-center bg-[#022a22] text-white w-8 h-8 rounded-full shadow-md">
                         <span className="text-sm text-center font-semibold w-4 h-4 mr-0 mb-1 hover:text-[#c1a0e0]">
                           {voice.amplifiers_count}
                         </span>
                       </button>
                     </div> */}
-                    <div>
                       <Amp
                         voiceId={voice.voice_id}
                         amplifiersCount={voice.amplifiers_count}
