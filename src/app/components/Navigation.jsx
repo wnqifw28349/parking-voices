@@ -56,7 +56,7 @@ export default function App() {
   //   !isMenuOpen ? <MenuOpenIcon /> : <MenuCloseIcon />;
 
   return (
-    <Navbar>
+    <Navbar className="lg:text-lg text bold bg-[#D7C3F1] lg:h-20 mb-3">
       <NavbarContent className="lg:hidden p-6" justify="start">
         <SideMenu isMenuOpen={isMenuOpen} className="lg:hidden " />
       </NavbarContent>
@@ -84,6 +84,11 @@ export default function App() {
         <NavbarItem>
           <Link color="foreground" href="/voices">
             Voices
+          </Link>
+        </NavbarItem>
+        <NavbarItem>
+          <Link color="foreground" href="/profile">
+            My Voices
           </Link>
         </NavbarItem>
       </NavbarContent>
