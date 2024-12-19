@@ -8,6 +8,7 @@ export default function AmpButtons({
   toggleAmp,
   amplifiersCount,
   existingAmp,
+  isSignedIn,
 }) {
   const [count, setCount] = useState(amplifiersCount);
   const [ampState, setAmpState] = useState(!!existingAmp);
@@ -19,10 +20,7 @@ export default function AmpButtons({
     setError(null);
 
     try {
-      // Call the server action
       await toggleAmp();
-
-      // Update local state optimistically
       if (ampState) {
         setCount(count - 1);
         setAmpState(false);
@@ -40,23 +38,28 @@ export default function AmpButtons({
   return (
     <div className="flex items-center">
       <button
-        onClick={handleToggleAmp}
+        onClick={isSignedIn ? handleToggleAmp : undefined}
+        disabled={!isSignedIn || loading}
         className="focus:outline-none"
-        disabled={loading}
+        title={!isSignedIn ? "Sign in to amplify" : ""}
       >
         {ampState ? (
-          <FaBroadcastTowerFilled
+          <FaBroadcastTower
             size={24}
-            className="text-red-500 hover:text-red-600"
+            className="text-[#c1a0e0] hover:text-[#8464a2]"
           />
         ) : (
           <FaBroadcastTower
             size={24}
-            className="text-gray-500 hover:text-gray-600"
+            className={`${
+              isSignedIn
+                ? "text-gray-500 hover:text-[#c1a0e0]"
+                : "text-gray-300"
+            }`}
           />
         )}
       </button>
-      <span className="ml-2 text-center">
+      <span className="flex items-center justify-center ml-2 mb-4 text-center bg-[#c1a0e0] text-white w-6 h-6 rounded-full shadow-md">
         {loading ? <FaSpinner className="animate-spin" /> : count}
       </span>
       {error && <p className="text-red-500 text-sm ml-3">{error}</p>}

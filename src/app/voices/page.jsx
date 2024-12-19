@@ -2,11 +2,10 @@ import Link from "next/link";
 import { db } from "@/utils/db";
 import { SignedIn, SignedOut } from "@clerk/nextjs";
 import PostForm from "@/app/components/PostForm";
-import AmpButtons from "../components/AmpButtons";
+import { Amp } from "../components/AmpVote";
 import * as Accordion from "@radix-ui/react-accordion";
 import { ChevronDownIcon } from "@radix-ui/react-icons";
 import "./accordionStyles.css";
-import DeleteVoiceButton from "../components/DeleteVoiceButton";
 
 export default async function Voices() {
   // Fetch voices with comments and nested replies
@@ -79,7 +78,10 @@ export default async function Voices() {
                   Location: {voice.location}
                 </p>
                 <div>
-                  <AmpButtons voiceId={voice.voice_id} />
+                  <Amp
+                    voiceId={voice.voice_id}
+                    amplifiersCount={voice.amplifiers_count}
+                  />
                 </div>
               </div>
 
