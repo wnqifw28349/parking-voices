@@ -5,6 +5,8 @@ import AmpButtons from "./AmpButtons";
 
 // Get existing amplifier record
 async function getExistingAmp(userId, voiceId) {
+  if (!userId) return null;
+
   const { rows: existingAmps } = await db.query(
     "SELECT * FROM Amplifiers WHERE user_id = $1 AND voice_id = $2 LIMIT 1",
     [userId, voiceId]
@@ -51,23 +53,26 @@ export async function Amp({ voiceId, amplifiersCount }) {
   const session = await currentUser();
   const clerkId = session?.id;
 
-  // Fetch the corresponding user from your database
-  const userQuery = `SELECT * FROM users WHERE users.clerk_id = $1`;
-  const userRes = await db.query(userQuery, [clerkId]);
-  const dbUser = userRes.rows[0];
+  // Fetch the corresponding user from your database if signed in
+  let userId = null;
+  if (clerkId) {
+    const userQuery = `SELECT * FROM users WHERE users.clerk_id = $1`;
+    const userRes = await db.query(userQuery, [clerkId]);
+    const dbUser = userRes.rows[0];
 
-  if (!dbUser) {
-    throw new Error("User not found in the database");
+    if (dbUser) {
+      userId = dbUser.user_id;
+    }
   }
 
-  const userId = dbUser.user_id;
-
   // Check if the user has already amplified this voice
-  const existingAmp = await getExistingAmp(userId, voiceId);
+  const existingAmp = userId ? await getExistingAmp(userId, voiceId) : null;
 
-  // Define the server action for toggling amplification
   async function toggleAmp() {
-    "use server"; // Mark this function as a Server Action
+    "use server";
+    if (!userId) {
+      throw new Error("You must be signed in to amplify a voice.");
+    }
     await handleAmp(userId, voiceId);
   }
 
@@ -77,6 +82,7 @@ export async function Amp({ voiceId, amplifiersCount }) {
         toggleAmp={toggleAmp}
         amplifiersCount={amplifiersCount}
         existingAmp={existingAmp}
+        isSignedIn={!!userId} // Pass whether the user is signed in
       />
     </form>
   );

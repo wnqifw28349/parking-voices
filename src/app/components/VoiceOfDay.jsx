@@ -2,7 +2,7 @@ import React from "react";
 import Image from "next/image";
 import InteractionIcons from "@/app/components/InteractionIcon";
 import { db } from "@/utils/db";
-
+import { Amp } from "./AmpVote";
 import { clsx } from "clsx";
 import {
   Card,
@@ -55,15 +55,12 @@ export default async function VoiceOfDay() {
         <CardFooter className="bg-gray-100 p-2 items-right justify-between">
           <CardDescription>
             <div className="flex items-center">
-              <button className="flex items-center justify-center bg-[#022a22] text-white w-8 h-8 rounded-full shadow-md">
-                <span className="text-sm text-center font-semibold w-4 h-4 mr-0 mb-1 hover:text-[#c1a0e0]">
-                  {data.amplifiers_count}
-                </span>
-              </button>
-              <GiUltrasound
-                size={24}
-                className={clsx("hover:text-orange-600")}
-              />
+              <div>
+                <Amp
+                  voiceId={data.voice_id}
+                  amplifiersCount={data.amplifiers_count}
+                />
+              </div>
               {/* <button className="flex items-center justify-center text-white w-8 h-8 rounded-full shadow-md">
                 <img
                   src="/ampicon.svg"
