@@ -77,12 +77,12 @@ export default function App() {
         justify="right"
       >
         <NavbarItem>
-          <Link color="foreground" href="/Articles">
+          <Link color="foreground" href="/articles">
             Articles
           </Link>
         </NavbarItem>
         <NavbarItem>
-          <Link color="foreground" href="/Voices">
+          <Link color="foreground" href="/voices">
             Voices
           </Link>
         </NavbarItem>

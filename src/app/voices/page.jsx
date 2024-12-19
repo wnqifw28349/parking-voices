@@ -31,8 +31,8 @@ export default async function Voices() {
       voices.amplifiers_count,
       voices.created_at,
       users.username,
-      COALESCE(json_agg(
-        json_build_object(
+      COALESCE(jsonb_agg(
+        DISTINCT jsonb_build_object(
           'comment_id', comments.comment_id,
           'content', comments.content,
           'username', comment_users.username,
@@ -101,16 +101,19 @@ export default async function Voices() {
                   <div className="flex items-center justify-evenly rounded-full shadow-md bg-[#D7C3F1] w-full h-10">
                     <div className="flex-row justify-between">
                       <img
-                        src="/logo.svg"
+                        src="./logo.svg"
                         height={10}
                         weight={10}
                         className="w-7 h-7 rounded-full flex items-center justify-center text-white"
                       />
                     </div>
                     <div>
-                      <p className="flex text-xs xs:text-xs sm:text-sm lg:text-base">
-                        {voice.username} 's voice
-                      </p>
+                      <Link href={`/profile/${voice.username}`}>
+                        <p className="flex text-xs xs:text-xs sm:text-sm lg:text-base">
+                          {voice.username} 's voice
+                        </p>
+                      </Link>
+
                       <Link href={`/voices/${voice.voice_id}`}></Link>
                     </div>
                     <div>
