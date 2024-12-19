@@ -22,6 +22,8 @@ export default async function Voices() {
       users.username,
       COALESCE(jsonb_agg(
         DISTINCT jsonb_build_object(
+      COALESCE(jsonb_agg(
+        DISTINCT jsonb_build_object(
           'comment_id', comments.comment_id,
           'content', comments.content,
           'username', comment_users.username,

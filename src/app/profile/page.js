@@ -1,22 +1,24 @@
 import { db } from "@/utils/db";
-import { auth } from "@clerk/nextjs/dist/types/server";
+import { auth } from "@clerk/nextjs/server";
 import Link from "next/link";
 import { SignedIn } from "@clerk/nextjs";
 import PostForm from "@/app/components/PostForm";
 import * as Accordion from "@radix-ui/react-accordion";
 import { ChevronDownIcon } from "@radix-ui/react-icons";
-import "./accordionStyles.css";
+import "../voices/accordionStyles.css";
+import DeleteVoiceButton from "../components/DeleteVoiceButton";
 
 export default async function ProfilePage() {
   const { userId, redirectToSignIn } = await auth(); //obtaining clerk Id from auth object
-  if (!userId) return redirectToSignIn; //clerk provides the redirectToSignIn method
+  if (!userId) return redirectToSignIn(); //clerk provides the redirectToSignIn method
 
   //use the clerk Id to retrieve the user_id of the current user
   const reqUser = await db.query(
     `SELECT user_id, username FROM users WHERE clerk_id=$1`,
     [userId]
   );
-  const userData = reqUser.rows;
+  console.log("this is my reUser", reqUser);
+  const userData = reqUser.rows[0];
   const Id = userData.user_id; //current user's id
   const username = userData.username; //current user's username
 
@@ -31,8 +33,8 @@ export default async function ProfilePage() {
    voices.amplifiers_count,
    voices.created_at,
    COUNT (comments.parent_comment_id) AS comments_count,
-   COALESCE(json_agg(
-        json_build_object(
+   COALESCE(jsonb_agg(
+        DISTINCT jsonb_build_object(
           'comment_id', comments.comment_id,
           'content', comments.content,
           'username', comment_users.username,
@@ -48,7 +50,7 @@ HAVING voices.user_id = $1
 ORDER BY voices.created_at DESC`,
     [Id]
   );
-  console.log(resPosts);
+  // console.log(resPosts);
 
   const voices = resPosts.rows;
 
@@ -93,6 +95,7 @@ ORDER BY voices.created_at DESC`,
                 <p className="text-sm text-gray-400 mb-4">
                   Location: {voice.location}
                 </p>
+                <DeleteVoiceButton voiceId={voice.voice_id} />
               </div>
 
               {/* Comments Section */}
