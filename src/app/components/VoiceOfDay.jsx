@@ -4,6 +4,7 @@ import InteractionIcons from "@/app/components/InteractionIcon";
 import { db } from "@/utils/db";
 import { Amp } from "./AmpVote";
 import { clsx } from "clsx";
+import Vodplay from "./Vodplay";
 import {
   Card,
   CardTitle,
@@ -39,10 +40,10 @@ export default async function VoiceOfDay() {
           <CardTitle className="text-lg font-bold text-gray-700 items-center text-center">
             <h3>Voice of the Day</h3>
           </CardTitle>
-
-          <div className="inline-block text-center rounded-full p-1 bg-green-600 text-white">
+          <Vodplay data={data} />
+          {/* <div className="inline-block text-center rounded-full p-1 bg-green-600 text-white">
             <PiUserSound size={24} className={clsx("hover:text-orange-600")} />
-          </div>
+          </div> */}
         </CardHeader>
         <CardContent className="p-6 text-center">
           <p>{data.content}</p>
