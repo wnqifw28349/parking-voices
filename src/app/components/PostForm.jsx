@@ -6,7 +6,7 @@ export default async function PostForm() {
   const { categories, locations } = await fetchCategoriesAndLocations();
 
   async function fetchCategoriesAndLocations() {
-    const categoriesQuery = `SELECT * FROM categories`;
+    const categoriesQuery = `SELECT * FROM categories ORDER BY ASC`;
     const locationsQuery = `SELECT * FROM locations ORDER BY location_name ASC`;
 
     const [categoriesRes, locationsRes] = await Promise.all([
