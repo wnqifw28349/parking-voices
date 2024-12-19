@@ -47,23 +47,23 @@ export default function AmpButtons({
           {ampState ? (
             <FaBroadcastTower
               size={24}
-              className="text-[#573391] hover:bg-[#8464a2]"
+              className="text-[#573391] hover:text-[#8464a2]"
             />
           ) : (
             <FaBroadcastTower
               size={24}
               className={`${
                 isSignedIn
-                  ? "text-[#573391] hover:text-[#c1a0e0]"
-                  : "text-[#357C3C]"
+                  ? "text-[#c1a0e0] hover:text-[#573391]"
+                  : "text-gray-300"
               }`}
             />
           )}
         </button>
       </div>
       <div className="items-center">
-        <button className="flex items-center justify-center bg-[#022a22] text-white w-8 h-8 rounded-full shadow-md">
-          <span className="flex items-center justify-center text-center text-sm  bg-[#022a22] text-white w-4 h-4 rounded-full shadow-md mb-1 hover:text-[#c1a0e0">
+        <button className="flex items-center justify-center bg-[#3a2166] text-white w-6 h-6 rounded-full shadow-md">
+          <span className="text-center text-sm  text-white w-4 h-4 shadow-md mb-1 hover:text-[#c1a0e0">
             {loading ? <FaSpinner className="animate-spin" /> : count}
           </span>
           {error && <p className="text-red-500 text-sm ml-3">{error}</p>}
