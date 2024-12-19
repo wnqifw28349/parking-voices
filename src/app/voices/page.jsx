@@ -1,12 +1,13 @@
-import Link from "next/link";
-import { db } from "@/utils/db";
-import { SignedIn, SignedOut } from "@clerk/nextjs";
-import PostForm from "@/app/components/PostForm";
-import AmpButtons from "../components/AmpButtons";
-import * as Accordion from "@radix-ui/react-accordion";
-import { ChevronDownIcon } from "@radix-ui/react-icons";
-import "./accordionStyles.css";
-import DeleteVoiceButton from "../components/DeleteVoiceButton";
+import Link from 'next/link';
+import { db } from '@/utils/db';
+import { SignedIn, SignedOut } from '@clerk/nextjs';
+import PostForm from '@/app/components/PostForm';
+import AmpButtons from '../components/AmpButtons';
+import * as Accordion from '@radix-ui/react-accordion';
+import { ChevronDownIcon } from '@radix-ui/react-icons';
+import './accordionStyles.css';
+// import DeleteVoiceButton from '../components/DeleteVoiceButton';
+import FilteredVoices from '@/app/components/FilteredVoices';
 
 export default async function Voices() {
   // Fetch voices with comments and nested replies
@@ -19,8 +20,8 @@ export default async function Voices() {
       voices.amplifiers_count,
       voices.created_at,
       users.username,
-      COALESCE(json_agg(
-        json_build_object(
+      COALESCE(jsonb_agg(
+        DISTINCT jsonb_build_object(
           'comment_id', comments.comment_id,
           'content', comments.content,
           'username', comment_users.username,
@@ -39,70 +40,18 @@ export default async function Voices() {
   const { rows: voices } = await db.query(voicesQuery);
 
   // Build a nested comment structure
-  function buildCommentTree(comments, parentCommentId = null) {
-    return comments
-      .filter((comment) => comment.parent_comment_id === parentCommentId)
-      .map((comment) => ({
-        ...comment,
-        replies: buildCommentTree(comments, comment.comment_id),
-      }));
-  }
 
   return (
     <div className="flex flex-col h-full bg-white shadow-md rounded-lg p-6 hover:shadow-lg transition">
       <h2 className="text-1xl font-bold mb-4 inline-block text-left w-full p-1 bg-green-600 text-[#022a22]">
         Active Voices
       </h2>
-      <ul className="space-y-4 flex-grow overflow-y-auto scrollbar-thin scrollbar-thumb-gray-600 scrollbar-track-gray-200">
-        {voices.map((voice) => {
-          // Build the nested comment tree for the current voice
-          const nestedComments = buildCommentTree(voice.comments);
+      <FilteredVoices
+        filteredVoices={voices}
+        username={voices.username}
+        voice_id={voices.voice_id}
+      />
 
-          return (
-            <li
-              key={voice.voice_id}
-              className="bg-gray-50 p-4 rounded-lg shadow-sm hover:shadow-md transition"
-            >
-              <div>
-                <p>{voice.username} voiced:</p>
-                <Link href={`/voices/${voice.voice_id}`}>
-                  <h3 className="text-lg font-semibold text-gray-700">
-                    {voice.content}
-                  </h3>
-                </Link>
-                <p className="text-xs text-gray-400">
-                  Category: {voice.category}
-                </p>
-                <p className="text-xs text-gray-400 mb-4">
-                  Location: {voice.location}
-                </p>
-                <div>
-                  <AmpButtons voiceId={voice.voice_id} />
-                </div>
-                <div>
-                  <DeleteVoiceButton voiceId={voice.voice_id} />
-                </div>
-              </div>
-
-              {/* Comments Section */}
-              {nestedComments.length > 0 && (
-                <details className="group mt-4">
-                  <summary className="text-sm font-medium text-gray-700 cursor-pointer hover:text-gray-900">
-                    {nestedComments.length} Comment
-                    {nestedComments.length > 1 ? "s" : ""}
-                  </summary>
-                  <ul className="mt-2 pl-4 border-l-2 border-gray-200 space-y-2">
-                    {nestedComments.map((comment) => (
-                      <CommentItem key={comment.comment_id} comment={comment} />
-                    ))}
-                  </ul>
-                </details>
-              )}
-            </li>
-          );
-        })}
-      </ul>
-      {/* Accordion Component for "Raise your voice" */}
       <SignedIn>
         <Accordion.Root
           type="single"
@@ -123,26 +72,5 @@ export default async function Voices() {
         </Accordion.Root>
       </SignedIn>
     </div>
-  );
-}
-
-// Recursive component for rendering comments and nested replies
-function CommentItem({ comment }) {
-  return (
-    <li className="text-sm text-gray-600">
-      <p>
-        <strong className="font-medium text-gray-800">
-          {comment.username}
-        </strong>
-        : {comment.content}
-      </p>
-      {comment.replies.length > 0 && (
-        <ul className="mt-2 pl-4 border-l-2 border-gray-300 space-y-2">
-          {comment.replies.map((reply) => (
-            <CommentItem key={reply.comment_id} comment={reply} />
-          ))}
-        </ul>
-      )}
-    </li>
   );
 }
