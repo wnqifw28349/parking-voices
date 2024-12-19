@@ -106,7 +106,7 @@ export default function App() {
         </NavbarItem>
         <NavbarItem>
           <SignedOut>
-            <SignInButton />
+            <SignInButton className="bg-[#0D7C66] h-10 w-20 rounded" />
             <Button auto flat href="/sign-in" />
           </SignedOut>
         </NavbarItem>
