@@ -6,6 +6,7 @@ import { Amp } from "../components/AmpVote";
 import * as Accordion from "@radix-ui/react-accordion";
 import { ChevronDownIcon } from "@radix-ui/react-icons";
 import "./accordionStyles.css";
+import DeleteVoiceButton from "../components/DeleteVoiceButton";
 
 export default async function Voices() {
   // Fetch voices with comments and nested replies
@@ -18,8 +19,8 @@ export default async function Voices() {
       voices.amplifiers_count,
       voices.created_at,
       users.username,
-      COALESCE(json_agg(
-        json_build_object(
+      COALESCE(jsonb_agg(
+        DISTINCT jsonb_build_object(
           'comment_id', comments.comment_id,
           'content', comments.content,
           'username', comment_users.username,
