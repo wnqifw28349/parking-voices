@@ -36,7 +36,7 @@ export default function AmpButtons({
   };
 
   return (
-    <div className="flex items-center justify-evenly w-40">
+    <div className="flex items-center gap-2 justify-between w-30">
       <div className="h-10 w-8 items-center mt-3 ">
         <button
           onClick={isSignedIn ? handleToggleAmp : undefined}
