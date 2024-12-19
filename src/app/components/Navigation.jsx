@@ -88,7 +88,7 @@ export default function App() {
         </NavbarItem>
         <NavbarItem>
           <Link color="foreground" href="/profile">
-            My Voices
+            My Voice
           </Link>
         </NavbarItem>
       </NavbarContent>
