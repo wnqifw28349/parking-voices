@@ -91,9 +91,7 @@ ORDER BY voices.created_at DESC`,
               className="bg-gray-50 p-4 rounded-lg shadow-sm hover:shadow-md transition"
             >
               <div>
-                <Link href={`/profile/${voice.username}`}>
-                  <p>{voice.username} voiced:</p>
-                </Link>
+                <p>{voice.username} voiced:</p>
 
                 <Link href={`/voices/${voice.voice_id}`}>
                   <h3 className="text-lg font-semibold text-gray-700">
