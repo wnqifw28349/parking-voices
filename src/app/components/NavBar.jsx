@@ -33,7 +33,7 @@ export default async function NavBar() {
         >
           Voices
         </Link>
-        <Link href="/UserAccount">MyAccount</Link>
+        <Link href="/profile">MyAccount</Link>
         <SignedIn>
           <div className="font-small space-x-4">Hello {user?.firstName}</div>
         </SignedIn>
