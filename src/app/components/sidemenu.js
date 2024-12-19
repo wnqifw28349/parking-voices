@@ -1,6 +1,5 @@
 "use client";
 
-import { Card } from "@nextui-org/react";
 import Link from "next/link";
 import { useState } from "react";
 
