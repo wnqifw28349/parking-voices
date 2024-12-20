@@ -1,36 +1,68 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+## Welcome To Parking Voices
 
-## Getting Started
+A platform for road-users in the UK to voice their experiences, thoughts and opinions. This app is focused on giving the general public an outlet, and an opportunity to be heard by an online community to instigate change. https://parking-voices-seven.vercel.app/
 
-First, run the development server:
+Users can view pages with limited interactivity when signed out. Sign up and create a username to get started. Sign-in and sign-up is handled by Clerk; https://clerk.com/.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+Fill in the 'Raise your voice' form and express yourself. Post your voice and watch it gain traction with Amp.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Click Amp to give power to a voice that you think deserves attention. The voice with the most Amp in the past 24 hours becomes the Voice Of The Day, and is displayed at the top of the home page.
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+Users can share their thoughts using comments and engage in discussion using nested replies. Click on a voice and use the forms to start a conversation.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Filter by category to cherry-pick the voices you want to see.
 
-## Learn More
+Keep up to date with the most recent voices on the Active Voices page.
 
-To learn more about Next.js, take a look at the following resources:
+Manage and view your voices on the profile page.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Navigate to other user's profiles by clicking on their username to see their voices.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Deployment
 
-## Deploy on Vercel
+Deployed with Vercel:
+https://parking-voices-seven.vercel.app/
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+Github repo:
+https://github.com/wnqifw28349/parking-voices
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Resources
+
+We referenced the structure of the didit-example repo and created fresh code, new components, and extra functionality in order to achieve our requirements.
+https://github.com/Tech-Educators/didit-reddit-upvote-example
+
+Redirect to sign in method
+https://clerk.com/docs/references/nextjs/auth#redirect-to-sign-in
+
+Web Hooks - used to seamlessly sync user data to our database
+https://clerk.com/docs/webhooks/sync-data
+
+RadixUI - used for dynamic styling
+https://www.radix-ui.com/primitives/docs/components/accordion
+
+## User Stories
+
+- I want to view all posts in one page, and have a separate page to view all of my posts.
+- I want to sign-up/sign-in to the app so that I can interact and create posts.
+- I want to like posts with a button. I want to see the like count change as I press it.
+- I want to add comments to posts on dedicated pages so that my interactions are contextually tied to the content I view. I want to add comments on individual posts using a user-friendly form.
+- I want to delete posts using a button on my posts page so that I can manage my content.
+- As a dev, I want the app navigation to make use of redirects and refreshes so that the user experience is as smooth as possible.
+- I want the app to be visually appealing and intuitive to use.
+
+## Database Schema
+
+![Database schema screenshot from Supabase](/public/dbschema.png)
+
+## Wireframe
+
+https://www.canva.com/design/DAGXNX9daoI/4_Z-pJ7xdD4tdU5VK9VFvA/view?utm_content=DAGXNX9daoI&utm_campaign=designshare&utm_medium=link&utm_source=editor
+
+## Project Reflections
+
+- Delete button error - dynamically control the user's ability to delete posts; when logged in, when looking at other user's posts (fixed - created a new button and separated the server function, used ternary operators for conditional rendering)
+- No current user - voices and profile pages not loading if no current user (fixed - used a let and if statement to check if the user is signed in using clerk auth() object).
+- Sign-in error - user not added to the database (fixed - update webhooks)
+- Database query errors - no connection, undefined queries (fixed - changed db URL to ipv4, checked queries in sql editor)
+- Variable errors - variables undefined in parent/child components (fixed - use props to pass variables to components)
+- Deployment errors - (fixed - updating env variables and webhooks)
